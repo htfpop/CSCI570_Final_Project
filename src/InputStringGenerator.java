@@ -14,19 +14,30 @@ public class InputStringGenerator {
             System.exit(-1);
         }
 
-        System.out.printf("Attempting to %s\r\n", args[0]);
-/*
+
+
         try
         {
+            System.out.printf("Attempting to open %s\r\n", args[0]);
             File f = new File(args[0]);
-            FileInputStream fis = new FileInputStream(f);
+            Scanner kb = new Scanner(f);
 
+            System.out.printf("--- START FILE CONTENTS ---\r\n");
+            while(kb.hasNextLine())
+            {
+                System.out.println(kb.nextLine());
+            }
 
+            System.out.printf("--- END FILE CONTENTS ---\r\n");
 
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            kb.close();
+        }catch(Exception e)
+        {
+            System.err.println("[ERROR]: Could not open file");
+            e.printStackTrace();
+            System.exit(-1);
+
         }
 
-*/
     }
 }
