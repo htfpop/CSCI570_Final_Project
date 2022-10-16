@@ -1,4 +1,4 @@
-# ComparingAlgorithmsTimeTrials
+# Apache POI Java->Excel API
 This repository will be used to capture and export the timings for each sorting algorithm for a given size.
 NOTE: To run the driver program, APACHE POI needs to be added as a dependency. This allows an interface to interact between a Java IDE and MS Excel
 
