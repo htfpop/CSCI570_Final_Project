@@ -14,8 +14,6 @@ public class InputStringGenerator {
             System.exit(-1);
         }
 
-
-
         try
         {
             System.out.printf("Attempting to open %s\r\n", args[0]);
