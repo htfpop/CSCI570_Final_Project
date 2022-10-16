@@ -1,0 +1,31 @@
+Input String Generator
+- Input String (S1) ASCII charcacters
+	- j Lines (keyboard.nextLine())
+	- while loop until we find another try-catch statement which check first character in the string -> integer
+- Input String (S2) ASCII charcacters
+	- k Lines (keyboard.nextLine())
+	- while loop until we find another try-catch statement which check first character in the string -> integer
+	
+Create 1 class for strings
+Public Class InString
+{
+
+}
+
+
+
+
+
+/* Notes */
+1st -ACTG <- orig 
+3
+ACTG|ACTG <-new Orig 
+6
+ACTGACT|"ACTGACTG"G <new Orig 
+1
+AC|TGACTACTGACTGG
+AC|ACTGACTACTGACTGGTGACTACTGACTGG
+
+
+During creating - Store as string
+After we String Generator - convert to byte array 
