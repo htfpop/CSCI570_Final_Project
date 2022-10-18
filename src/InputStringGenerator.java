@@ -26,7 +26,6 @@ public class InputStringGenerator {
 	        }
 	        try
 	        {
-	            
 	            boolean str2 = false;
 	            System.out.printf("Attempting to open %s\r\n", args[0]);
 	            File f = new File(args[0]);
@@ -34,7 +33,6 @@ public class InputStringGenerator {
 
 
 	            System.out.printf("--- START FILE CONTENTS ---\r\n");
-	            //setting a as first string (will need to make this global later)
 	            String dnaSeq1 = kb.nextLine();
 	            String dnaSeq2 = "";
 	            int i = 0;
@@ -44,43 +42,36 @@ public class InputStringGenerator {
 	                if(kb.hasNextInt()){
 	                    if(!str2){
 	                        i = kb.nextInt();
-	                        //System.out.println(i);
-	                        dnaSeq1 = strInsert(dnaSeq1, i);      
+	                        dnaSeq1 = strInsert(dnaSeq1, i);
 	                        System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq1);
 	                    }
 	                    else{
-	                        //System.out.println("we are now in b");
 	                        i = kb.nextInt();
-	                        //System.out.println(i);
-	                        dnaSeq2 = strInsert(dnaSeq2, i);      
+	                        dnaSeq2 = strInsert(dnaSeq2, i);
 	                        System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq2);
 	                    }
 
 	                }
 	                else{
 	                    dnaSeq2 = kb.nextLine();
-	                    //System.out.println("this is string b: " + b);
 	                    str2 = true;
 	                }
 	            }
 
-	            System.out.printf("A = %s\r\n",dnaSeq1);
-	            this.dnaA = dnaSeq1; 
+	            this.dnaA = dnaSeq1;
 	            this.dnaB = dnaSeq2; 
 	            
 	            System.out.printf("--- END FILE CONTENTS ---\r\n");
 	            kb.close();
+
 	        }catch(Exception e)
 	        {
 	            System.err.println("[ERROR]: Could not open file");
 	            e.printStackTrace();
 	            System.exit(-1);
-
 	        }
 	}
-	
-	
-	
+
 	public String getDnaA() {
 		return dnaA;
 	}
@@ -88,24 +79,17 @@ public class InputStringGenerator {
 		return dnaB;
 	}
 	
-	
-	
-	
-	
-
 
     public static void main (String[] args)
     {
-    	
-    	
-    	InputStringGenerator parsedFile = new InputStringGenerator(args);
-    			String dnaSeqA = parsedFile.getDnaA();
-    			String dnaSeqB = parsedFile.getDnaB();
-    			
-    			
-       
-        
+        InputStringGenerator parsedFile = new InputStringGenerator(args);
+        String dnaSeqA = parsedFile.getDnaA();
+    	String dnaSeqB = parsedFile.getDnaB();
+
+        System.out.printf("A - %s\r\n", dnaSeqA);
+        System.out.printf("B - %s\r\n", dnaSeqB);
     }
+
     /**
      * Helper method to insert substrings into a string
      * @param s - original string
@@ -115,31 +99,31 @@ public class InputStringGenerator {
     public static String strInsert(String s, int index)
     {
         //Nulls or invalid range check
-        if(s.length() == 0 || index == 0)
+        if(s.length() == 0)
         {
             return "";
         }
 
         return s.substring(0,index+1)+s+s.substring(index+1);
     }
-    // public static void test_strInsert()
-    // {
-    //     String s1 = "ACTG";
+     public static void test_strInsert()
+     {
+         String s1 = "ACTG";
 
-    //     System.out.printf("Initial String - %s\r\n",s1);
-    //     s1 = strInsert(s1, 3);
-    //     System.out.printf("SubString Insert @ index 3 - %s\r\n", s1);
-    //     s1 = strInsert(s1, 6);
-    //     System.out.printf("SubString Insert @ index 6 - %s\r\n", s1);
-    //     s1 = strInsert(s1, 1);
-    //     System.out.printf("SubString Insert @ index 6 - %s\r\n", s1);
-    //     String s2 = "TACG";
-    //     System.out.printf("Initial String - %s\r\n",s2);
-    //     s2 = strInsert(s2, 1);
-    //     System.out.printf("SubString Insert @ index 1 - %s\r\n", s2);
-    //     s2 = strInsert(s2, 2);
-    //     System.out.printf("SubString Insert @ index 2 - %s\r\n", s2);
-    //     s2 = strInsert(s2, 9);
-    //     System.out.printf("SubString Insert @ index 9 - %s\r\n", s2);
-    // }
+         System.out.printf("Initial String - %s\r\n",s1);
+         s1 = strInsert(s1, 3);
+         System.out.printf("SubString Insert @ index 3 - %s\r\n", s1);
+         s1 = strInsert(s1, 6);
+         System.out.printf("SubString Insert @ index 6 - %s\r\n", s1);
+         s1 = strInsert(s1, 1);
+         System.out.printf("SubString Insert @ index 6 - %s\r\n", s1);
+         String s2 = "TACG";
+         System.out.printf("Initial String - %s\r\n",s2);
+         s2 = strInsert(s2, 1);
+         System.out.printf("SubString Insert @ index 1 - %s\r\n", s2);
+         s2 = strInsert(s2, 2);
+         System.out.printf("SubString Insert @ index 2 - %s\r\n", s2);
+         s2 = strInsert(s2, 9);
+         System.out.printf("SubString Insert @ index 9 - %s\r\n", s2);
+     }
 }
