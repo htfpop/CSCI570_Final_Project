@@ -50,11 +50,13 @@ public class InputStringGenerator {
                 }
                 else{
                     b = kb.nextLine();
-                    System.out.println("this is string b: " + b);
+                    //System.out.println("this is string b: " + b);
                     str2 = true;
-                    
                 }
             }
+
+            System.out.printf("A = %s\r\n",a);
+            System.out.printf("B = %s\r\n",b);
 
             System.out.printf("--- END FILE CONTENTS ---\r\n");
 
