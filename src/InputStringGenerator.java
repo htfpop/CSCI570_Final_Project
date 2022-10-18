@@ -3,74 +3,107 @@ import java.util.Scanner;
 import java.lang.*;
 
 public class InputStringGenerator {
-    //public String a;
-    //public String b;
+	
+	
+	private String dnaA; 
+	private String dnaB; 
+	
+	
+	public InputStringGenerator(String[] args) {
+		parseText(args);
+	}
+	/**
+	 * 
+	 * @param args
+	 */
+	private void parseText(String[] args) {
+		 System.out.printf("--- Input File Generator main ---\r\n");
+
+	        if(args.length < 1)
+	        {
+	            System.err.println("[ERROR]: There are no input files! Exiting Now...");
+	            System.exit(-1);
+	        }
+	        try
+	        {
+	            
+	            boolean str2 = false;
+	            System.out.printf("Attempting to open %s\r\n", args[0]);
+	            File f = new File(args[0]);
+	            Scanner kb = new Scanner(f);
+
+
+	            System.out.printf("--- START FILE CONTENTS ---\r\n");
+	            //setting a as first string (will need to make this global later)
+	            String dnaSeq1 = kb.nextLine();
+	            String dnaSeq2 = "";
+	            int i = 0;
+	            System.out.printf("this is string a: %s\n", dnaSeq1);
+	            while(kb.hasNext())
+	            {
+	                if(kb.hasNextInt()){
+	                    if(!str2){
+	                        i = kb.nextInt();
+	                        //System.out.println(i);
+	                        dnaSeq1 = strInsert(dnaSeq1, i);      
+	                        System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq1);
+	                    }
+	                    else{
+	                        //System.out.println("we are now in b");
+	                        i = kb.nextInt();
+	                        //System.out.println(i);
+	                        dnaSeq2 = strInsert(dnaSeq2, i);      
+	                        System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq2);
+	                    }
+
+	                }
+	                else{
+	                    dnaSeq2 = kb.nextLine();
+	                    //System.out.println("this is string b: " + b);
+	                    str2 = true;
+	                }
+	            }
+
+	            System.out.printf("A = %s\r\n",dnaSeq1);
+	            this.dnaA = dnaSeq1; 
+	            this.dnaB = dnaSeq2; 
+	            
+	            System.out.printf("--- END FILE CONTENTS ---\r\n");
+	            kb.close();
+	        }catch(Exception e)
+	        {
+	            System.err.println("[ERROR]: Could not open file");
+	            e.printStackTrace();
+	            System.exit(-1);
+
+	        }
+	}
+	
+	
+	
+	public String getDnaA() {
+		return dnaA;
+	}
+	public String getDnaB() {
+		return dnaB;
+	}
+	
+	
+	
+	
+	
+
 
     public static void main (String[] args)
     {
-        System.out.printf("--- Input File Generator main ---\r\n");
-
-        if(args.length < 1)
-        {
-            System.err.println("[ERROR]: There are no input files! Exiting Now...");
-            System.exit(-1);
-        }
-        try
-        {
-            
-            boolean str2 = false;
-            System.out.printf("Attempting to open %s\r\n", args[0]);
-            File f = new File(args[0]);
-            Scanner kb = new Scanner(f);
-
-
-            System.out.printf("--- START FILE CONTENTS ---\r\n");
-            //setting a as first string (will need to make this global later)
-            String a = kb.nextLine();
-            String b = "";
-            int i = 0;
-            System.out.printf("this is string a: %s\n", a);
-            while(kb.hasNext())
-            {
-                if(kb.hasNextInt()){
-                    if(!str2){
-                        i = kb.nextInt();
-                        //System.out.println(i);
-                        a = strInsert(a, i);      
-                        System.out.printf("SubString Insert @ index %d - %s\r\n", i, a);
-                    }
-                    else{
-                        //System.out.println("we are now in b");
-                        i = kb.nextInt();
-                        //System.out.println(i);
-                        b = strInsert(b, i);      
-                        System.out.printf("SubString Insert @ index %d - %s\r\n", i, b);
-                    }
-
-                }
-                else{
-                    b = kb.nextLine();
-                    //System.out.println("this is string b: " + b);
-                    str2 = true;
-                }
-            }
-
-            System.out.printf("A = %s\r\n",a);
-            System.out.printf("B = %s\r\n",b);
-
-            System.out.printf("--- END FILE CONTENTS ---\r\n");
-
-            kb.close();
-        }catch(Exception e)
-        {
-            System.err.println("[ERROR]: Could not open file");
-            e.printStackTrace();
-            System.exit(-1);
-
-        }
-
-        //test_strInsert();
-
+    	
+    	
+    	InputStringGenerator parsedFile = new InputStringGenerator(args);
+    			String dnaSeqA = parsedFile.getDnaA();
+    			String dnaSeqB = parsedFile.getDnaB();
+    			
+    			
+       
         
     }
     /**
