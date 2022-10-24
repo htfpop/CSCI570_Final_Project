@@ -24,10 +24,14 @@ public class TestInputStringGenerator {
 	public void setUp() throws Exception {
 
 		//need to be RELATIVE PATH  for this to work on everyones machine or use full path but do not commit 
-		String filePath = "ProjectRequirements\\\\datapoints\\\\";
+		//String filePath = "ProjectRequirements\\\\datapoints\\\\";
+		String filePath = "ProjectRequirements\\\\SampleTestCases\\\\";
+
 
 		// if new file then need to add testing measurements to dnaA and dnaB
-		String[] listOfFiles = new String[]{"in0.txt",
+		String[] listOfFiles = new String[]{
+				"input5.txt",
+				"in0.txt",
 											"in1.txt",
 											"in2.txt",
 											"in3.txt",
@@ -52,7 +56,9 @@ public class TestInputStringGenerator {
 		
 		
 		//testing against dna A 
-		dnaA = new String[]{"ACACTGACTACTGACTGGTGACTACTGACTGG",
+		dnaA = new String[]{
+				"ww",
+				"ACACTGACTACTGACTGGTGACTACTGACTGG",
 				"CCACCAGG",
 				"CTTCTCTTCTTCTTCCCTTCCTCTTCCCTTCC",
 				"GGTGTGTGTCACACACATGTGTGTCAGGTGTGTGTCACACACATGTGTGTCACACACACACACA",
@@ -71,7 +77,9 @@ public class TestInputStringGenerator {
 				
 				};
 		//testing for dna B 
-		dnaB = new String[]{"TATTATACGCTATTATACGCGACGCGGACGCG",
+		dnaB = new String[]{
+				"ww",
+				"TATTATACGCTATTATACGCGACGCGGACGCG",
 				"CATGCATG",
 				"CCCCGACGACCCCCGACGACCGACGACGACGA",
 				"AAAAAAAATTTTAAAAAAATTTTATTTTATTTTAAAAAATTTTAAAAAAATTTTATTTTATTTT",
@@ -106,6 +114,10 @@ public class TestInputStringGenerator {
 				String dnaSeqB = parsedFile.getDnaB();
 				System.out.println("A :" + dnaSeqA);
 				System.out.println("B :" + dnaSeqB);
+				//parsedFile.printArray();
+				parsedFile.printdnaAOut();
+				parsedFile.printdnaBOut();
+				parsedFile.printOptVal();
 				assertEquals("DNA A", dnaA[cnt], dnaSeqA);
 				assertEquals("DNA B", dnaB[cnt], dnaSeqB);
 				System.out.println("=================================================");
