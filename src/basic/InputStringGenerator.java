@@ -47,10 +47,68 @@ public class InputStringGenerator {
 		parseText(strArry);
 		initOPTArray();
 		buildOptArray();
-		backTrack();
+		backTrace2();
+		//backTrack();
 
 
 
+	}
+	private void backTrace2() {
+		int ii = OPT.length-1; 
+		int jj = OPT[0].length-1;
+		int aa = OPT.length-2;
+		int bb = OPT[0].length-2;
+
+		while(aa>= 0 || bb >=0) {
+			int going_Diag = Integer.MAX_VALUE; 
+			int going_left = Integer.MAX_VALUE;
+			int going_up = Integer.MAX_VALUE;
+			
+			if (ii >0 && jj >0) {
+			going_Diag = OPT[ii-1][jj-1];
+			}
+			if( ii >0 ) {
+				going_up = OPT[ii-1][jj];
+			}
+			if (jj >0 ) {
+				going_left = OPT[ii][jj-1];
+			}
+			
+			int minVal = Math.min(going_Diag,Math.min(going_up, going_left));
+			
+			if(minVal == going_Diag) {
+				//add both char
+				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
+				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
+				aa = aa-1;
+				bb = bb-1;
+				ii=ii-1;
+				jj=jj-1;
+			}
+			else if(minVal == going_up) {
+				//string b gets gap character
+				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
+				dnaBOut = "_".concat(dnaBOut);
+				aa = aa -1;
+				ii = ii-1; //could be jj	
+				
+			}
+			else if(minVal == going_left) {
+				//string a get gap character
+				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
+				dnaAOut = "_".concat(dnaAOut);
+				bb = bb -1;
+				jj = jj-1; //could be ii	
+				
+			}
+			 
+		}
+		
+		
+		
+		
+		
+		
 	}
 
 	private void backTrack() {
@@ -190,21 +248,26 @@ public class InputStringGenerator {
 			System.err.println("[ERROR]: There are no input files! Exiting Now...");
 			return;
 		}
-		boolean str2 = false;
+		boolean isSecondStr = false;
 		System.out.printf("Attempting to open %s\r\n", args[0]);
 		File f = new File(args[0]);
 		Scanner kb = new Scanner(f);
 
 
 		//System.out.printf("--- START FILE CONTENTS ---\r\n");
+	
+		
+		
 		String dnaSeq1 = kb.nextLine();
 		String dnaSeq2 = "";
 		int i = 0;
-		//System.out.printf("this is string a: %s\n", dnaSeq1);
+		System.out.printf("this is string a: %s\n", dnaSeq1);
 		while(kb.hasNext())
 		{
+			
+			
 			if(kb.hasNextInt()){
-				if(!str2){
+				if(!isSecondStr){
 					i = kb.nextInt();
 					dnaSeq1 = strInsert(dnaSeq1, i);
 					//System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq1);
@@ -218,7 +281,7 @@ public class InputStringGenerator {
 			}
 			else{
 				dnaSeq2 = kb.nextLine();
-				str2 = true;
+				isSecondStr = true;
 			}
 		}
 
