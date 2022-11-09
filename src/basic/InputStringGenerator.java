@@ -18,6 +18,7 @@ public class InputStringGenerator {
 	private String dnaAOut = "";
 	private String dnaBOut = "";
 	private int[][] OPT;
+	private int[][] pathArry;
 	private int optVal;
 
 
@@ -32,7 +33,7 @@ public class InputStringGenerator {
 		parseText(args);
 		initOPTArray();
 		buildOptArray();
-		backTrack();
+		backTrace();
 
 
 	}
@@ -47,19 +48,69 @@ public class InputStringGenerator {
 		parseText(strArry);
 		initOPTArray();
 		buildOptArray();
-		backTrace2();
+		backTrace();
 		//backTrack();
 
 
 
 	}
-	private void backTrace2() {
+	/**
+	 * 
+	 */
+	private void backTrace() {
 		int ii = OPT.length-1; 
 		int jj = OPT[0].length-1;
 		int aa = OPT.length-2;
 		int bb = OPT[0].length-2;
 
 		while(aa>= 0 || bb >=0) {
+			
+			int cameFrom = pathArry[ii][jj];
+			if(jj == 0) {
+				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
+				dnaBOut = "_".concat(dnaBOut);
+				aa = aa -1;
+				ii = ii-1; //could be jj	
+			}else if(ii == 0 ) {
+				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
+				dnaAOut = "_".concat(dnaAOut);
+				bb = bb -1;
+				jj = jj-1; //could be ii	
+
+			}
+			
+
+			if(cameFrom == 2) {
+				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
+				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
+				aa = aa-1;
+				bb = bb-1;
+				ii=ii-1;
+				jj=jj-1; 
+				
+			}else if (cameFrom == 1) {
+				//string b gets gap character
+				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
+				dnaBOut = "_".concat(dnaBOut);
+				aa = aa -1;
+				ii = ii-1; //could be jj	
+				
+			}else if(cameFrom == -1) {
+				//string a get gap character
+				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
+				dnaAOut = "_".concat(dnaAOut);
+				bb = bb -1;
+				jj = jj-1; //could be ii	
+
+				
+			}
+			
+			
+			
+		}
+			
+	/*		
+			
 			int going_Diag = Integer.MAX_VALUE; 
 			int going_left = Integer.MAX_VALUE;
 			int going_up = Integer.MAX_VALUE;
@@ -104,104 +155,14 @@ public class InputStringGenerator {
 			 
 		}
 		
-		
+		*/
 		
 		
 		
 		
 	}
 
-	private void backTrack() {
-
-		int ii = OPT.length-1; 
-		int jj = OPT[0].length-1;
-		int aa = OPT.length-2;
-		int bb = OPT[0].length-2;
-		// dnaAOut = "" + dnaA[ii-1];
-		// dnaBOut = "" + dnaB[jj-1];
-
-		while( aa >= 0 || bb >= 0) {
-			if(ii == OPT.length-1 && jj == OPT.length-1) {
-				dnaAOut = Character.toString(dnaA[aa]);
-				dnaBOut = Character.toString(dnaB[bb]);
-				aa = aa-1;
-				bb = bb-1;
-
-			}
-
-			int case1_Diag = OPT[ii-1][jj-1];
-			int case2_above = OPT[ii-1][jj]; 
-			int case3_left = OPT[ii][jj-1];
-			int minVal = Math.min(case1_Diag,Math.min(case3_left, case2_above));
-
-
-			if(minVal == case1_Diag) {
-				// update pointer
-				//TODO: check this 
-				if(aa <0) {
-					dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
-					dnaAOut = "_".concat(dnaAOut);
-					bb = bb -1; 
-				}
-				else if (bb <0) {
-					dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
-					dnaBOut = "_".concat(dnaBOut);
-					aa=aa-1;
-
-				}
-				else {
-					dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
-					dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
-					ii = ii-1;
-					jj = jj-1;
-					aa = aa-1;
-					bb = bb -1;
-					}
-
-			}
-			else if(minVal == case2_above) {
-				if(aa <0) {
-					dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
-					dnaAOut = "_".concat(dnaAOut);
-					bb = bb -1; 
-				}
-				else if (bb <0) {
-					dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
-					dnaBOut = "_".concat(dnaBOut);
-					aa=aa-1;
-
-				}
-				else { 
-					dnaAOut = "_".concat(dnaAOut);
-					dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
-					ii = ii-1;
-					bb = bb -1; 
-				}
-			}
-			else if(minVal == case3_left) {
-				if(aa <0) {
-					dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
-					dnaAOut = "_".concat(dnaAOut);
-					bb = bb -1; 
-				}
-				else if (bb <0) {
-					dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
-					dnaBOut = "_".concat(dnaBOut);
-					aa=aa-1;
-
-				}
-				else { 
-				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
-				dnaBOut = "_".concat(dnaBOut);
-				jj = jj-1;
-				aa = aa-1;
-				}
-			}
-
-
-		}
-
-	}
+	
 
 
 	/**
@@ -210,12 +171,14 @@ public class InputStringGenerator {
 
 	private void initOPTArray() {
 		OPT = new int[dnaA.length+1][dnaB.length+1];
+		pathArry = new int[dnaA.length+1][dnaB.length+1];
 		for(int ii = 0; ii < OPT.length; ii++) {
 			OPT[ii][0] = ii*DELTA; 
 		}
 		for(int ii = 0; ii < OPT[0].length; ii++) {
 			OPT[0][ii] = ii*DELTA;
 		}
+		
 
 	}
 	/**
@@ -227,8 +190,20 @@ public class InputStringGenerator {
 			for(int jj =1; jj<= dnaB.length; jj++) {
 				int case1 = getAlpha(dnaA[ii-1],dnaB[jj-1]) + OPT[ii-1][jj-1]; // diagonal 
 				int case2 = DELTA + OPT[ii-1][jj]; // vertical index above
-				int case3 =  DELTA + OPT[ii][jj-1]; //horizontal to the left 
-				OPT[ii][jj]= Math.min(case1, Math.min(case2, case3));
+				int case3 =  DELTA + OPT[ii][jj-1]; //horizontal to the left
+				int curr =  Math.min(case1, Math.min(case2, case3));
+				OPT[ii][jj] = curr;
+				
+				if (curr == case1) {
+					pathArry[ii][jj] = 2; //diag
+				}
+				else if (curr == case2) {
+					pathArry[ii][jj] = 1; //top
+				}
+				else if(curr == case3) {
+					pathArry[ii][jj] = -1; //left
+				}
+				
 
 			}
 		}
@@ -385,7 +360,7 @@ public class InputStringGenerator {
 			// Loop through all elements of current row
 			for (int j = 0; j < OPT[i].length; j++) {
 
-				System.out.print(OPT[i][j] + " ");
+				System.out.print(OPT[i][j] + "   ");
 			}
 			System.out.println();
 		}  
