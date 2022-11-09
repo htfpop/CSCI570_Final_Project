@@ -118,6 +118,7 @@ public class TestInputStringGenerator {
 				parsedFile.printdnaAOut();
 				parsedFile.printdnaBOut();
 				parsedFile.printOptVal();
+				gapCounterTest();
 				assertEquals("DNA A", dnaA[cnt], dnaSeqA);
 				assertEquals("DNA B", dnaB[cnt], dnaSeqB);
 				System.out.println("=================================================");
@@ -133,9 +134,26 @@ public class TestInputStringGenerator {
 			ee.printStackTrace();
 		}
 
+	}
 
+	@Test
+	public void gapCounterTest() {
 
+		//String s = "TCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGAT____CGATCGATCGATCG_TCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGAA";
+		String s = "__________T__T_A_T__T_A_TAC_G_C__GAC_G____C_GA_T__T_A_TACGCGAC_GCG";
+		gapCounter(s);
+	}
 
+	public void gapCounter(String s)
+	{
+		int retVal = 0;
+		for(int i = 0; i < s.length(); i++)
+		{
+			if(s.charAt(i) == '_')
+				retVal++;
+		}
+
+		System.out.printf("Number of Gaps: %d", retVal);
 	}
 }
 
