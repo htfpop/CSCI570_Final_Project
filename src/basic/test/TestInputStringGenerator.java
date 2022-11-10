@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import basic.InputStringGenerator;
+import basic.Basic;
 
 public class TestInputStringGenerator {
-	InputStringGenerator parsedFile;
+	Basic parsedFile;
 	ArrayList<String> listOfPaths;
 	String[] dnaA;
 	String[] dnaB;
@@ -30,7 +30,7 @@ public class TestInputStringGenerator {
 
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-				"input4.txt",
+				"input1.txt",
 				"in0.txt",
 											"in1.txt",
 											"in2.txt",
@@ -109,15 +109,28 @@ public class TestInputStringGenerator {
 			int cnt=0; 
 			for(String filePath : listOfPaths) {
 				System.out.println("Testing file: " + filePath);
-				InputStringGenerator parsedFile = new InputStringGenerator(filePath);
-				String dnaSeqA = parsedFile.getDnaA();
-				String dnaSeqB = parsedFile.getDnaB();
-				System.out.println("A :" + dnaSeqA);
-				System.out.println("B :" + dnaSeqB);
+				String[] strArry = new String[] {filePath}; 
+				String[] dnaStrings = Basic.parseStrings(strArry);
+				
+				double beforeUsedMem=Basic.getMemoryInKB();
+				double startTime = Basic.getTimeInMilliseconds();
+				
+				Basic algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
+				double afterUsedMem = Basic.getMemoryInKB();
+				double endTime = Basic.getTimeInMilliseconds();
+				double totalUsage = afterUsedMem-beforeUsedMem;
+				double totalTime = endTime - startTime;
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				String dnaSeqA = algo.getDnaA();
+				String dnaSeqB = algo.getDnaB();
+				//System.out.println("A :" + dnaSeqA);
+				//System.out.println("B :" + dnaSeqB);
 				//parsedFile.printArray();
-				parsedFile.printdnaAOut();
-				parsedFile.printdnaBOut();
-				parsedFile.printOptVal();
+				algo.printOptVal();
+				algo.printdnaAOut();
+				algo.printdnaBOut();
+				System.out.println(String.valueOf(totalTime));
+				System.out.println(String.valueOf(totalUsage));
 				assertEquals("DNA A", dnaA[cnt], dnaSeqA);
 				assertEquals("DNA B", dnaB[cnt], dnaSeqB);
 				System.out.println("=================================================");
