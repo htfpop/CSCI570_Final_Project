@@ -1,6 +1,6 @@
 package basic;
-import java.io.File;
-import java.io.FileNotFoundException;
+import javax.imageio.IIOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -175,7 +175,7 @@ public class Basic {
 
 	/**
 	 * 
-	 * @param charSeq This a two character string array to take
+	 * @param charSeq1 This a two character string array to take
 	 * @return
 	 */
 
@@ -351,7 +351,9 @@ public class Basic {
 			double endTime = getTimeInMilliseconds();
 			double totalUsage = afterUsedMem-beforeUsedMem;
 			double totalTime = endTime - startTime;
-			//TODO: create a writer file 
+			//TODO: create a writer file
+			//TODO: Integration of toFile see below:
+			//toFile(algo.getDnaA(), algo.getDnaB(), totalUsage, totalTime, "../output/output.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -361,6 +363,35 @@ public class Basic {
 
 		System.out.printf("A - %s\r\n", dnaSeqA);
 		System.out.printf("B - %s\r\n", dnaSeqB);
+	}
+
+	public static void toFile(String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
+	{
+		try
+		{
+			FileOutputStream fos = new FileOutputStream(outFile);
+			DataOutputStream dos = new DataOutputStream(fos);
+
+			dos.writeBytes(DNA_A);
+			dos.writeBytes(DNA_B);
+			dos.writeDouble(totalMemory);
+			dos.writeDouble(totalTime);
+
+			dos.close();
+
+
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.printf("[ERROR]: Could not create new file with path %s. Exiting now\r\n",outFile);
+			System.exit(-1);
+		} catch (IOException e)
+		{
+			System.out.printf("[ERROR]: Could not write to file\r\n");
+			throw new RuntimeException(e);
+		}
+
+
 	}
 
 }
