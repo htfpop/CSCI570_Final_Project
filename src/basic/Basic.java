@@ -164,12 +164,35 @@ public class Basic {
 	}
 
 	/**
+	 * This method returns the sequence alignment for DNA_A
+	 * @return - DNA_A sequence alignment as a String
+	 */
+	public String getDnaAOut() {
+		return this.dnaAOut;
+	}
+
+	/**
 	 * This method returns the second seq. of DNA 
 	 * @return - DNA_B as a String
 	 */
 	public String getDnaB() {
 		return String.valueOf(dnaB);
 	}
+
+	/**
+	 * This method returns the sequence alignment for DNA_B
+	 * @return - DNA_B sequence alignment as a String
+	 */
+	public String getDnaBOut() {
+		return this.dnaBOut;
+	}
+
+	/**
+	 * This method returns the optimal value for this sequence alignment
+	 * @return - optimal value as an integer
+	 */
+	public int getOptVal() { return optVal; }
+
 
 
 	/**
@@ -355,32 +378,56 @@ public class Basic {
 			double totalTime = endTime - startTime;
 			//TODO: create a writer file
 			//TODO: Integration of toFile see below:
-			//toFile(algo.getDnaA(), algo.getDnaB(), totalUsage, totalTime, "../output/output.txt");
+			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, "output.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assert algo != null;
-		String dnaSeqA = algo.getDnaA();
-		String dnaSeqB = algo.getDnaB();
-
-		System.out.printf("A - %s\r\n", dnaSeqA);
-		System.out.printf("B - %s\r\n", dnaSeqB);
+//		String dnaSeqA = algo.getDnaA();
+//		String dnaSeqB = algo.getDnaB();
+//
+//		System.out.printf("A - %s\r\n", dnaSeqA);
+//		System.out.printf("B - %s\r\n", dnaSeqB);
+		algo.printOptVal();
+		algo.printdnaAOut();
+		algo.printdnaBOut();
 	}
 
-	public static void toFile(String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
+	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
 	{
 		try
 		{
-			FileOutputStream fos = new FileOutputStream(outFile);
-			DataOutputStream dos = new DataOutputStream(fos);
+			FileWriter fw = new FileWriter(outFile);
+			PrintWriter pw = new PrintWriter(fw);
 
-			dos.writeBytes(DNA_A);
-			dos.writeBytes(DNA_B);
-			dos.writeDouble(totalMemory);
-			dos.writeDouble(totalTime);
+			pw.write(String.valueOf(optVal));
+			pw.println();
 
-			dos.close();
+			pw.write(DNA_A);
+			pw.println();
+
+			pw.write(DNA_B);
+			pw.println();
+
+			pw.write(String.valueOf(totalMemory));
+			pw.println();
+
+			pw.write(String.valueOf(totalTime));
+			pw.println();
+
+			pw.close();
+
+
+//			FileOutputStream fos = new FileOutputStream(outFile);
+//			DataOutputStream dos = new DataOutputStream(fos);
+//
+//			dos.writeBytes(DNA_A);
+//			dos.writeBytes(DNA_B);
+//			dos.writeDouble(totalMemory);
+//			dos.writeDouble(totalTime);
+//
+//			dos.close();
 
 
 		}
