@@ -1,7 +1,5 @@
 package basic;
-import javax.imageio.IIOException;
 import java.io.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -147,7 +145,7 @@ public class Basic {
 				else if (curr == case2) {
 					pathArry[ii][jj] = 1; //top
 				}
-				else if(curr == case3) {
+				else {
 					pathArry[ii][jj] = -1; //left
 				}
 				
@@ -159,14 +157,15 @@ public class Basic {
 
 	/**
 	 * This method returns the first seq. of DNA
-	 * @return
+	 * @return - DNA_A as a String
 	 */
 	public String getDnaA() {
 		return String.valueOf(dnaA);
 	}
+
 	/**
 	 * This method returns the second seq. of DNA 
-	 * @return
+	 * @return - DNA_B as a String
 	 */
 	public String getDnaB() {
 		return String.valueOf(dnaB);
@@ -174,29 +173,32 @@ public class Basic {
 
 
 	/**
-	 * 
-	 * @param charSeq1 This a two character string array to take
-	 * @return
+	 * This function calculates the Alpha value given 2
+	 * character sequences from DNA_A and DNA_B
+	 * @param charSeq1 - First character for comparison
+	 * @param charSeq2 - second character for comparison
+	 * @return - Returns mismatch/match cost
 	 */
-
 	public int getAlpha(char charSeq1,char charSeq2 ){
 
 		String charSeq = "" + charSeq1 + charSeq2;
 		return alphaTableMap.get(charSeq.toUpperCase());
 
 	}
+
 	/**
-	 * 
+	 * This method is used for debugging.
+	 * Print out entire OPT array
 	 */
 	public void printArray() {
 
 		// Loop through all rows
-		for (int i = 0; i < OPT.length; i++) {
+		for (int[] ints : OPT) {
 
 			// Loop through all elements of current row
-			for (int j = 0; j < OPT[i].length; j++) {
+			for (int anInt : ints) {
 
-				System.out.print(OPT[i][j] + "   ");
+				System.out.print(anInt + "   ");
 			}
 			System.out.println();
 		}  
@@ -260,7 +262,7 @@ public class Basic {
 	/**
 	 * This is a public static method who parses the arguments given... and gives the correct strings 
 	 * to be used in the basic algorithm. 
-	 * @param: args[0] should be the input file; args[1] should be the outputfile
+	 * 	@param: args[0] should be the input file; args[1] should be the outputfile
 	 *  @return: this returns strings A and B 
 	 * 
 	 */
@@ -286,13 +288,12 @@ public class Basic {
 		{
 			
 			if(kb.hasNextInt()){
+				i = kb.nextInt();
 				if(!isSecondStr){
-					i = kb.nextInt();
 					dnaSeq1 = strInsert(dnaSeq1, i);
 					//System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq1);
 				}
 				else{
-					i = kb.nextInt();
 					dnaSeq2 = strInsert(dnaSeq2, i);
 					//System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq2);
 				}
@@ -346,6 +347,7 @@ public class Basic {
 			Map<String,Integer> alphaTableMap = initAlphaTableMap();
 			double beforeUsedMem=getMemoryInKB();
 			double startTime = getTimeInMilliseconds();
+			assert dnaStrings != null;
 			algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
 			double afterUsedMem = getMemoryInKB();
 			double endTime = getTimeInMilliseconds();
@@ -358,6 +360,7 @@ public class Basic {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		assert algo != null;
 		String dnaSeqA = algo.getDnaA();
 		String dnaSeqB = algo.getDnaB();
 
@@ -387,7 +390,7 @@ public class Basic {
 			System.exit(-1);
 		} catch (IOException e)
 		{
-			System.out.printf("[ERROR]: Could not write to file\r\n");
+			System.out.print("[ERROR]: Could not write to file\r\n");
 			throw new RuntimeException(e);
 		}
 
