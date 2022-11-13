@@ -69,15 +69,19 @@ public class Basic {
 		int aa = OPT.length-2;
 		int bb = OPT[0].length-2;
 
-		while(aa>= 0 || bb >=0) {
-			
+		while(aa>= 0 || bb >=0)
+		{
 			int cameFrom = pathArry[ii][jj];
-			if(jj == 0) {
+
+			if(jj == 0)
+			{
 				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
 				dnaBOut = "_".concat(dnaBOut);
 				aa = aa -1;
 				ii = ii-1; //could be jj	
-			}else if(ii == 0 ) {
+			}
+			else if(ii == 0 )
+			{
 				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
 				dnaAOut = "_".concat(dnaAOut);
 				bb = bb -1;
@@ -91,14 +95,18 @@ public class Basic {
 				ii=ii-1;
 				jj=jj-1; 
 				
-			}else if (cameFrom == 1) {
+			}
+			else if (cameFrom == 1)
+			{
 				//string b gets gap character
 				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
 				dnaBOut = "_".concat(dnaBOut);
 				aa = aa -1;
 				ii = ii-1; //could be jj	
 				
-			}else if(cameFrom == -1) {
+			}
+			else if(cameFrom == -1)
+			{
 				//string a get gap character
 				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
 				dnaAOut = "_".concat(dnaAOut);
@@ -117,10 +125,13 @@ public class Basic {
 	private void initOPTArray() {
 		OPT = new int[dnaA.length+1][dnaB.length+1];
 		pathArry = new int[dnaA.length+1][dnaB.length+1];
-		for(int ii = 0; ii < OPT.length; ii++) {
+
+		for(int ii = 0; ii < OPT.length; ii++)
+		{
 			OPT[ii][0] = ii*DELTA; 
 		}
-		for(int ii = 0; ii < OPT[0].length; ii++) {
+		for(int ii = 0; ii < OPT[0].length; ii++)
+		{
 			OPT[0][ii] = ii*DELTA;
 		}
 		
@@ -131,25 +142,28 @@ public class Basic {
 	 */
 	private void buildOptArray() {
 
-		for(int ii =1; ii<= dnaA.length; ii++) {
-			for(int jj =1; jj<= dnaB.length; jj++) {
+		for(int ii =1; ii<= dnaA.length; ii++)
+		{
+			for(int jj =1; jj<= dnaB.length; jj++)
+			{
 				int case1 = getAlpha(dnaA[ii-1],dnaB[jj-1]) + OPT[ii-1][jj-1]; // diagonal 
 				int case2 = DELTA + OPT[ii-1][jj]; // vertical index above
 				int case3 =  DELTA + OPT[ii][jj-1]; //horizontal to the left
 				int curr =  Math.min(case1, Math.min(case2, case3));
 				OPT[ii][jj] = curr;
 				
-				if (curr == case1) {
+				if (curr == case1)
+				{
 					pathArry[ii][jj] = 2; //diag
 				}
-				else if (curr == case2) {
+				else if (curr == case2)
+				{
 					pathArry[ii][jj] = 1; //top
 				}
-				else {
+				else
+				{
 					pathArry[ii][jj] = -1; //left
 				}
-				
-
 			}
 		}
 		optVal =OPT[OPT.length-1][OPT[0].length-1];
@@ -290,7 +304,6 @@ public class Basic {
 	 * 
 	 */
 	public static String[] parseStrings(String[] args) throws FileNotFoundException {
-		//System.out.printf("--- Input File Generator main ---\r\n");
 		String[] dnaSeqs = new String[2];
 
 		if(args.length < 1)
@@ -299,30 +312,30 @@ public class Basic {
 			return null;
 		}
 		boolean isSecondStr = false;
-		//System.out.printf("Attempting to open %s\r\n", args[0]);
 		File f = new File(args[0]);
 		Scanner kb = new Scanner(f);
-		//System.out.printf("--- START FILE CONTENTS ---\r\n");
 		String dnaSeq1 = kb.nextLine();
 		String dnaSeq2 = "";
 		int i = 0;
-		//System.out.printf("this is string a: %s\n", dnaSeq1);
+
 		while(kb.hasNext())
 		{
 			
-			if(kb.hasNextInt()){
+			if(kb.hasNextInt())
+			{
 				i = kb.nextInt();
-				if(!isSecondStr){
+				if(!isSecondStr)
+				{
 					dnaSeq1 = strInsert(dnaSeq1, i);
-					//System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq1);
 				}
-				else{
+				else
+				{
 					dnaSeq2 = strInsert(dnaSeq2, i);
-					//System.out.printf("SubString Insert @ index %d - %s\r\n", i, dnaSeq2);
 				}
 
 			}
-			else{
+			else
+			{
 				dnaSeq2 = kb.nextLine();
 				isSecondStr = true;
 			}
@@ -331,7 +344,6 @@ public class Basic {
 		dnaSeqs[0] = dnaSeq1;
 		dnaSeqs[1] = dnaSeq2; 
 		
-		//System.out.printf("--- END FILE CONTENTS ---\r\n");
 		kb.close();
 		return dnaSeqs;
 	}
@@ -376,19 +388,13 @@ public class Basic {
 			double endTime = getTimeInMilliseconds();
 			double totalUsage = afterUsedMem-beforeUsedMem;
 			double totalTime = endTime - startTime;
-			//TODO: create a writer file
-			//TODO: Integration of toFile see below:
 			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, "output.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assert algo != null;
-//		String dnaSeqA = algo.getDnaA();
-//		String dnaSeqB = algo.getDnaB();
-//
-//		System.out.printf("A - %s\r\n", dnaSeqA);
-//		System.out.printf("B - %s\r\n", dnaSeqB);
+
 		algo.printOptVal();
 		algo.printdnaAOut();
 		algo.printdnaBOut();
@@ -418,18 +424,6 @@ public class Basic {
 
 			pw.close();
 
-
-//			FileOutputStream fos = new FileOutputStream(outFile);
-//			DataOutputStream dos = new DataOutputStream(fos);
-//
-//			dos.writeBytes(DNA_A);
-//			dos.writeBytes(DNA_B);
-//			dos.writeDouble(totalMemory);
-//			dos.writeDouble(totalTime);
-//
-//			dos.close();
-
-
 		}
 		catch(FileNotFoundException e)
 		{
@@ -440,8 +434,5 @@ public class Basic {
 			System.out.print("[ERROR]: Could not write to file\r\n");
 			throw new RuntimeException(e);
 		}
-
-
 	}
-
 }
