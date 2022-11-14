@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import basic.Basic;
+import efficient.Efficient;
 
 public class TestInputStringGenerator {
 	Basic parsedFile;
@@ -30,7 +31,7 @@ public class TestInputStringGenerator {
 
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-				"input1.txt",
+				"input0.txt",
 				"in0.txt",
 											"in1.txt",
 											"in2.txt",
@@ -104,11 +105,12 @@ public class TestInputStringGenerator {
 	 * MAIN TEST
 	 */
 	@Test
-	public void test() {
+	public void basic() {
 		try {
 			int cnt=0; 
 			for(String filePath : listOfPaths) {
-				System.out.println("Testing file: " + filePath);
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("********basic******** Testing file: " + filePath);
 				String[] strArry = new String[] {filePath}; 
 				String[] dnaStrings = Basic.parseStrings(strArry);
 				
@@ -120,18 +122,17 @@ public class TestInputStringGenerator {
 				double endTime = Basic.getTimeInMilliseconds();
 				double totalUsage = afterUsedMem-beforeUsedMem;
 				double totalTime = endTime - startTime;
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				String dnaSeqA = algo.getDnaA();
 				String dnaSeqB = algo.getDnaB();
 				//System.out.println("A :" + dnaSeqA);
 				//System.out.println("B :" + dnaSeqB);
-				//parsedFile.printArray();
+				algo.printArray();
 				algo.printOptVal();
 				algo.printdnaAOut();
 				algo.printdnaBOut();
 				System.out.println(String.valueOf(totalTime));
 				System.out.println(String.valueOf(totalUsage));
-				gapCounterTest();
+				//gapCounterTest();
 				assertEquals("DNA A", dnaA[cnt], dnaSeqA);
 				assertEquals("DNA B", dnaB[cnt], dnaSeqB);
 				System.out.println("=================================================");
@@ -143,13 +144,61 @@ public class TestInputStringGenerator {
 			fnf.printStackTrace();
 		}
 		catch(Exception ee) {
-			System.out.println("There was a fail in the InputStringGenerator");
+			System.out.println("There was a fail in the basic");
 			ee.printStackTrace();
 		}
 
 	}
 
+	//=========================================================================================================================================================
+	
 	@Test
+	public void efficient() {
+		try {
+			int cnt=0; 
+			for(String filePath : listOfPaths) {
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("********efficient******** Testing file: " + filePath);
+				String[] strArry = new String[] {filePath}; 
+				String[] dnaStrings = Basic.parseStrings(strArry);
+				
+				double beforeUsedMem=Basic.getMemoryInKB();
+				double startTime = Basic.getTimeInMilliseconds();
+				
+				Efficient algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
+				double afterUsedMem = Basic.getMemoryInKB();
+				double endTime = Basic.getTimeInMilliseconds();
+				double totalUsage = afterUsedMem-beforeUsedMem;
+				double totalTime = endTime - startTime;
+				String dnaSeqA = algo.getDnaA();
+				String dnaSeqB = algo.getDnaB();
+				//System.out.println("A :" + dnaSeqA);
+				//System.out.println("B :" + dnaSeqB);
+				//parsedFile.printArray();
+				algo.printOptVal();
+				algo.printdnaAOut();
+				algo.printdnaBOut();
+				System.out.println(String.valueOf(totalTime));
+				System.out.println(String.valueOf(totalUsage));
+				assertEquals("DNA A", dnaA[cnt], dnaSeqA);
+				assertEquals("DNA B", dnaB[cnt], dnaSeqB);
+				System.out.println("=================================================");
+				cnt++; 
+			}
+		}
+		catch(FileNotFoundException fnf) {
+			System.out.println("File not FOUND");
+			fnf.printStackTrace();
+		}
+		catch(Exception ee) {
+			System.out.println("There was a fail in the efficient");
+			ee.printStackTrace();
+		}
+
+	}
+
+//=========================================================================================================================================================
+	
 	public void gapCounterTest() {
 
 		String[] gaps = {
