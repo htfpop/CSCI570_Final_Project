@@ -19,6 +19,8 @@ public class Basic {
 	private int[][] pathArry;
 	private int optVal;
 
+	private int[][] spaceEfficientOpt;
+
 	
 	
 	
@@ -29,7 +31,28 @@ public class Basic {
 		initOPTArray();
 		buildOptArray();
 		backTrace();
+
+		//space efficient
+		spaceEfficientAlgo();
 		
+	}
+
+	private void spaceEfficientAlgo()
+	{
+		int maxLen = Math.max(dnaA.length, dnaB.length);
+
+		//Array B[0 .. m, 0 .. 1]
+		spaceEfficientOpt = new int[maxLen][2];
+
+		//Initialize B[i,0] = i * Delta
+		for(int i = 0; i < spaceEfficientOpt.length; i++)
+		{
+			spaceEfficientOpt[i][0] = i * DELTA;
+		}
+
+		//TODO: for j=1,...,n
+			//TODO: for 1=1,...,m
+
 	}
 /*
 	/**
