@@ -33,7 +33,7 @@ public class Efficient {
 		//this.dnaA = dnaA;
 		//this.dnaB = dnaB;
 		this.alphaTableMap = alphaTableMap;
-		divideCAlignment(dnaA,dnaB);
+		optVal= divideCAlignment(dnaA,dnaB);
 
 	
 		
@@ -43,20 +43,22 @@ public class Efficient {
 	private int divideCAlignment(char[] dnaA, char[] dnaB) {
 		//BaseCases 
 		Basic algo;
+		int opt1 =0;
+		int opt2 =0;
 		ArrayList<Integer> P = new ArrayList<>();
 		if(dnaA.length <= 2 || dnaB.length <= 2 ){
 			algo = new Basic(dnaA, dnaB, alphaTableMap,DELTA);
 			return algo.getOptVal();
 		}
 		int[][] BL = spaceEfficientAlignment(dnaA,Arrays.copyOfRange(dnaB, 0, dnaB.length/2));
-		int[][] BR = spaceEfficientAlignmentBackward(dnaA,Arrays.copyOfRange(dnaB, dnaB.length/2, dnaB.length));
+		int[][] BR = spaceEfficientAlignmentBackward(dnaA,Arrays.copyOfRange(dnaB, dnaB.length/2+1, dnaB.length));
 		
 		int q  = findOptimalQ(BL, BR);
 		P.add(q);
 		P.add(dnaB.length/2);
 
-		int opt1 = divideCAlignment(Arrays.copyOfRange(dnaA, 1  , q          ), Arrays.copyOfRange(dnaB  , 1              , dnaB.length/2));
-		int opt2 = divideCAlignment(Arrays.copyOfRange(dnaA, q+1, dnaB.length), Arrays.copyOfRange(dnaB  , dnaB.length/2, dnaB.length));
+		 opt1 += divideCAlignment(Arrays.copyOfRange(dnaA, 0  , q         ), Arrays.copyOfRange(dnaB  ,0              , dnaB.length/2));
+		 opt2 += divideCAlignment(Arrays.copyOfRange(dnaA,  q+1, dnaA.length), Arrays.copyOfRange(dnaB  , dnaB.length/2, dnaB.length));
 		
 		return opt1 + opt2; 
 	}
@@ -79,33 +81,20 @@ public class Efficient {
 	
     public int findOptimalQ (int[][]BL, int[][]BR)
     {
-        HashMap<Integer, Integer> hm = new HashMap<>();
-        int Q = 1;
-        int last_sum = Integer.MAX_VALUE;
+        int Q = 0;
+        int last_sum = BL[0][0] + BR[0][0];
         //Loop through all values of BL/BR
-        for(int i = 0; i < BL.length; i++)
+        for(int i = 0; i < BL.length-1; i++)
         {
-        	 int sum = BL[i][0] + BR[i][0];
-        	 if( last_sum > sum ) {
+        	 int sum = BL[i][0] + BR[i+1][0];
+        	 if(sum < last_sum ) {
         		 last_sum = sum;
-        		 Q = Math.min(i, Q); 
+        		 Q = i; 
         	 }
-        	 /*
-            //Found instance where BL == BR
-            if(BL[i][0] == BR[i][0])
-            {
-                //If our found value is a local minimum, store in hashmap and update minimum (Q)
-                if(BL[i][0] < Q)
-                {
-                    hm.put(BL[i][0], i);
-                    Q = BL[i][0];
-                }
-            }
-        	  */
+
         }
-        
         //Find index value in BL/BR
-        return Q;//hm.get(Q);
+        return Q;
     }
 	/**
 	 * 
