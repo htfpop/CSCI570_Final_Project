@@ -19,6 +19,8 @@ public class Basic {
 	private int[][] pathArry;
 	private int optVal;
 
+	private int[][] spaceEfficientOpt;
+
 	
 	
 	
@@ -29,7 +31,49 @@ public class Basic {
 		initOPTArray();
 		buildOptArray();
 		backTrace();
+
+		//space efficient
+		spaceEfficientAlgo();
 		
+	}
+
+	private void spaceEfficientAlgo()
+	{
+		int maxLen = Math.max(dnaA.length, dnaB.length);
+
+		//Array B[0 .. m, 0 .. 1]
+		spaceEfficientOpt = new int[maxLen][2];
+
+		//Initialize B[i,0] = i * Delta
+		for(int i = 0; i < spaceEfficientOpt.length; i++)
+		{
+			spaceEfficientOpt[i][0] = i * DELTA;
+		}
+
+		//TODO: for j=1,...,n
+		for(int j = 1; j <= dnaA.length; j++)
+		{
+			spaceEfficientOpt[0][1] = j * DELTA;
+
+			//TODO: for 1=1,...,m
+			for(int i = 1; i <= dnaB.length; i++)
+			{
+				int f_term = getAlpha(String.valueOf(dnaA).charAt(i), String.valueOf(dnaB).charAt(j)) + spaceEfficientOpt[i - 1][0];
+				int s_term = DELTA + spaceEfficientOpt[i - 1][1];
+				int t_term = DELTA + spaceEfficientOpt[i][0];
+				spaceEfficientOpt[i][1] = Math.min(f_term, Math.min(s_term, t_term));
+			}
+
+			//Column copy from column 1 to 0
+			for(int k = 0; k < spaceEfficientOpt.length; k++)
+			{
+				spaceEfficientOpt[k][0] = spaceEfficientOpt[k][1];
+			}
+
+
+		}
+
+
 	}
 /*
 	/**
