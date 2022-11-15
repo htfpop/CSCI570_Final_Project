@@ -31,7 +31,7 @@ public class TestInputStringGenerator {
 
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-				"input1.txt",
+				"input5.txt",
 				"in0.txt",
 											"in1.txt",
 											"in2.txt",
