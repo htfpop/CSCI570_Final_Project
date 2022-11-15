@@ -2,6 +2,9 @@ package efficient;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,9 +35,6 @@ public class Efficient {
 		//this.dnaB = dnaB;
 		this.alphaTableMap = alphaTableMap;
 		optVal= divideCAlignment(dnaA,dnaB);
-
-
-
 	}
 
 
@@ -170,28 +170,12 @@ public class Efficient {
 		}			
 
 		return B; 
-
-		/*
-		String myX = String.valueOf(X);
-		String myY = String.valueOf(Y);
-		myX =  new StringBuffer(myX).reverse().toString();
-		myY =  new StringBuffer(myY).reverse().toString();
-		X = myX.toCharArray();
-		Y = myY.toCharArray();
-		int[][] B = spaceEfficientAlignment(X,Y);
-		int[][] Brev = new int[B.length][B[0].length];
-		int jj = B.length -1; 
-		for(int ii = 0; ii < B.length; ii++) {
-			Brev[ii][0] = B[jj][0];
-			Brev[ii][1] = B[jj][1];
-			jj--; 		
-		}
-
-
-		return B;
-		 */
-
 	}
+	
+	
+	
+	
+	
 	/**
 	 * 
 	 */
@@ -263,6 +247,7 @@ public class Efficient {
 	public void printOptVal() {
 		System.out.println(String.valueOf(optVal));
 	}
+
 	/**
 	 * This method returns the first seq. of DNA
 	 * @return - DNA_A as a String
@@ -270,12 +255,29 @@ public class Efficient {
 	public String getDnaA() {
 		return String.valueOf(dnaA);
 	}
+
+	/**
+	 * This method returns the sequence alignment for DNA_A
+	 * @return - DNA_A sequence alignment as a String
+	 */
+	public String getDnaAOut() {
+		return this.dnaAOut;
+	}
+
 	/**
 	 * This method returns the second seq. of DNA 
 	 * @return - DNA_B as a String
 	 */
 	public String getDnaB() {
 		return String.valueOf(dnaB);
+	}
+
+	/**
+	 * This method returns the sequence alignment for DNA_B
+	 * @return - DNA_B sequence alignment as a String
+	 */
+	public String getDnaBOut() {
+		return this.dnaBOut;
 	}
 
 	//================================static helper classes =============================================
@@ -403,8 +405,64 @@ public class Efficient {
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Efficient algo = null;
+		try {
+			String[] dnaStrings = parseStrings(args);
+			Map<String,Integer> alphaTableMap = initAlphaTableMap();
+			double beforeUsedMem=getMemoryInKB();
+			double startTime = getTimeInMilliseconds();
+			assert dnaStrings != null;
+			algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
+			double afterUsedMem = getMemoryInKB();
+			double endTime = getTimeInMilliseconds();
+			double totalUsage = afterUsedMem-beforeUsedMem;
+			double totalTime = endTime - startTime;
+			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, "output.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assert algo != null;
 
+		algo.printOptVal();
+		algo.printdnaAOut();
+		algo.printdnaBOut();
+	}
+	
+	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
+	{
+		try
+		{
+			FileWriter fw = new FileWriter(outFile);
+			PrintWriter pw = new PrintWriter(fw);
+
+			pw.write(String.valueOf(optVal));
+			pw.println();
+
+			pw.write(DNA_A);
+			pw.println();
+
+			pw.write(DNA_B);
+			pw.println();
+
+			pw.write(String.valueOf(totalMemory));
+			pw.println();
+
+			pw.write(String.valueOf(totalTime));
+			pw.println();
+
+			pw.close();
+
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.printf("[ERROR]: Could not create new file with path %s. Exiting now\r\n",outFile);
+			System.exit(-1);
+		} catch (IOException e)
+		{
+			System.out.print("[ERROR]: Could not write to file\r\n");
+			throw new RuntimeException(e);
+		}
 	}
 
 }
