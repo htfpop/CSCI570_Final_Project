@@ -29,26 +29,35 @@ public class TestInputStringGenerator {
 		String filePath = "ProjectRequirements\\\\SampleTestCases\\\\";
 
 
+//		// if new file then need to add testing measurements to dnaA and dnaB
+//		String[] listOfFiles = new String[]{
+//				//"input1.txt",
+//				"in0.txt",
+//											"in1.txt",
+//											"in2.txt",
+//											"in3.txt",
+//											"in4.txt",
+//											"in5.txt",
+//											"in6.txt",
+//											"in7.txt",
+//											"in8.txt",
+//											"in9.txt",
+//											"in10.txt",
+//											"in11.txt",
+//											"in12.txt",
+//											"in13.txt",
+//											"in14.txt",
+//											"in15.txt"};
+		
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-				"input5.txt",
-				"in0.txt",
-											"in1.txt",
-											"in2.txt",
-											"in3.txt",
-											"in4.txt",
-											"in5.txt",
-											"in6.txt",
-											"in7.txt",
-											"in8.txt",
-											"in9.txt",
-											"in10.txt",
-											"in11.txt",
-											"in12.txt",
-											"in13.txt",
-											"in14.txt",
-											"in15.txt"};
-		
+											"input0.txt",
+											"input1.txt",
+											"input2.txt",
+											"input3.txt",
+											"input4.txt",
+											"input5.txt",
+};
 
 		listOfPaths = new ArrayList<>();
 		for(String str : listOfFiles) {
@@ -58,7 +67,7 @@ public class TestInputStringGenerator {
 		
 		//testing against dna A 
 		dnaA = new String[]{
-				"ww",
+				//"ww",
 				"ACACTGACTACTGACTGGTGACTACTGACTGG",
 				"CCACCAGG",
 				"CTTCTCTTCTTCTTCCCTTCCTCTTCCCTTCC",
@@ -79,7 +88,7 @@ public class TestInputStringGenerator {
 				};
 		//testing for dna B 
 		dnaB = new String[]{
-				"ww",
+				//"ww",
 				"TATTATACGCTATTATACGCGACGCGGACGCG",
 				"CATGCATG",
 				"CCCCGACGACCCCCGACGACCGACGACGACGA",
@@ -104,7 +113,7 @@ public class TestInputStringGenerator {
 	/**
 	 * MAIN TEST
 	 */
-	@Test
+	//@Test
 	public void basic() {
 		try {
 			int cnt=0; 
@@ -152,7 +161,7 @@ public class TestInputStringGenerator {
 
 	//=========================================================================================================================================================
 	
-	@Test
+	//@Test
 	public void efficient() {
 		try {
 			int cnt=0; 
@@ -195,6 +204,78 @@ public class TestInputStringGenerator {
 			ee.printStackTrace();
 		}
 
+	}
+	@Test
+	public void both() {
+		try {
+			int cnt=0; 
+			for(String filePath : listOfPaths) {
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("********efficient******** Testing file: " + filePath);
+				String[] strArry = new String[] {filePath}; 
+				String[] dnaStrings = Basic.parseStrings(strArry);
+				
+				double beforeUsedMem=Basic.getMemoryInKB();
+				double startTime = Basic.getTimeInMilliseconds();
+				
+				Efficient algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
+				double afterUsedMem = Basic.getMemoryInKB();
+				double endTime = Basic.getTimeInMilliseconds();
+				double totalUsage = afterUsedMem-beforeUsedMem;
+				double totalTime = endTime - startTime;
+				//String dnaSeqA = algo.getDnaA();
+				//String dnaSeqB = algo.getDnaB();
+				//System.out.println("A :" + dnaSeqA);
+				//System.out.println("B :" + dnaSeqB);
+				//parsedFile.printArray();
+				algo.printOptVal();
+				algo.printdnaAOut();
+				gapCounter(algo.getDnaAOut()); 
+				algo.printdnaBOut();
+				gapCounter(algo.getDnaBOut());
+				System.out.println(String.valueOf(totalTime));
+				System.out.println(String.valueOf(totalUsage));
+				//assertEquals("DNA A", dnaA[cnt], dnaSeqA);
+				//assertEquals("DNA B", dnaB[cnt], dnaSeqB);
+				System.out.println("=================================================");
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("********basic******** Testing file: " + filePath);
+				
+				beforeUsedMem=Basic.getMemoryInKB();
+				startTime = Basic.getTimeInMilliseconds();
+				
+				Basic algo1 = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
+				 afterUsedMem = Basic.getMemoryInKB();
+				 endTime = Basic.getTimeInMilliseconds();
+				 totalUsage = afterUsedMem-beforeUsedMem;
+				 totalTime = endTime - startTime;
+				String dnaSeqA = algo.getDnaA();
+				String dnaSeqB = algo.getDnaB();
+				//System.out.println("A :" + dnaSeqA);
+				//System.out.println("B :" + dnaSeqB);
+				//algo.printArray();
+				algo1.printOptVal();
+				algo1.printdnaAOut();
+				gapCounter(algo1.getDnaAOut()); 
+				algo1.printdnaBOut();
+				gapCounter(algo1.getDnaBOut()); 
+
+				System.out.println(String.valueOf(totalTime));
+				System.out.println(String.valueOf(totalUsage));
+				
+				
+				cnt++; 
+			}
+		}
+		catch(FileNotFoundException fnf) {
+			System.out.println("File not FOUND");
+			fnf.printStackTrace();
+		}
+		catch(Exception ee) {
+			System.out.println("There was a fail in the efficient");
+			ee.printStackTrace();
+		}
+	
 	}
 
 //=========================================================================================================================================================

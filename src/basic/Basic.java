@@ -343,7 +343,7 @@ public class Basic {
 	}
 	public static double getMemoryInKB() {
 		double total = Runtime.getRuntime().totalMemory();
-		return (total-Runtime.getRuntime().freeMemory())/10e3;
+		return (total - Runtime.getRuntime().freeMemory())/10e3;
 		}
 	public static double getTimeInMilliseconds() {
 		return System.nanoTime()/10e6;

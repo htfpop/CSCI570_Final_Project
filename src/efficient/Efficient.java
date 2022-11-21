@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import basic.Basic;
+
 
 public class Efficient {
 	//constant vars
@@ -23,38 +23,47 @@ public class Efficient {
 	private char[] dnaB;
 	private String dnaAOut = "";
 	private String dnaBOut = "";
-	private int[][] pathArry;
+	private int[][] basic_pathArry;
 	private int optVal;
+	private int[][] basic_OPT;
+	ArrayList<int[]> P = new ArrayList<>();
 
-	private int[][] OPT;
 
 
 
 	public Efficient(char[] dnaA,char[] dnaB,Map<String,Integer> alphaTableMap, int gap){
-		//this.dnaA = dnaA;
-		//this.dnaB = dnaB;
 		this.alphaTableMap = alphaTableMap;
 		optVal= divideCAlignment(dnaA,dnaB);
+		stringRev();
 	}
+
+	private void stringRev() {
+		dnaAOut = new StringBuilder(dnaAOut).reverse().toString();
+		dnaBOut = new StringBuilder(dnaBOut).reverse().toString();
+	}
+
 
 
 	private int divideCAlignment(char[] dnaA, char[] dnaB) {
 		//BaseCases 
-		Basic algo;
+		int algo;
 		int opt1 =0;
 		int opt2 =0;
-		ArrayList<Integer> P = new ArrayList<>();
 		if(dnaA.length <= 2 || dnaB.length <= 2 ){
-			algo = new Basic(dnaA, dnaB, alphaTableMap,DELTA);
-			return algo.getOptVal();
+			this.dnaA = dnaA;
+			this.dnaB = dnaB;
+				initBasic();
+			algo = basic();
+			backTrace();
+			return algo;
 		}
 		int[][] BL = spaceEfficientAlignment(dnaA,Arrays.copyOfRange(dnaB, 0, dnaB.length/2));
 		int[][] BR = spaceEfficientAlignmentBackward(dnaA,Arrays.copyOfRange(dnaB, dnaB.length/2, dnaB.length));
 
 		int q  = findOptimalQ(BL, BR);
-		P.add(q);
-		P.add(dnaB.length/2);
-
+		int[] temp = new int[] {q,dnaB.length/2};
+		P.add(temp);
+		
 		opt1 += divideCAlignment(Arrays.copyOfRange(dnaA, 0  , q         ),   Arrays.copyOfRange(dnaB  ,0              , dnaB.length/2));
 		opt2 += divideCAlignment(Arrays.copyOfRange(dnaA,  q, dnaA.length), Arrays.copyOfRange(dnaB  , dnaB.length/2, dnaB.length));
 
@@ -171,23 +180,23 @@ public class Efficient {
 
 		return B; 
 	}
-	
-	
-	
-	
-	
 	/**
 	 * 
 	 */
 	private void backTrace() {
-		int ii = OPT.length-1; 
-		int jj = OPT[0].length-1;
-		int aa = OPT.length-2;
-		int bb = OPT[0].length-2;
+		int ii = basic_OPT.length-1; 
+		int jj = basic_OPT[0].length-1;
+		int aa = basic_OPT.length-2;
+		int bb = basic_OPT[0].length-2;
 
+		String A = new StringBuilder(new String(dnaA)).reverse().toString();
+		String B = new StringBuilder(new String(dnaB)).reverse().toString();
+		dnaA = A.toCharArray();
+		dnaB = B.toCharArray();
+		
 		while(aa>= 0 || bb >=0)
 		{
-			int cameFrom = pathArry[ii][jj];
+			int cameFrom = basic_pathArry[ii][jj];
 
 			if(jj == 0)
 			{
@@ -205,12 +214,15 @@ public class Efficient {
 			}
 			if(cameFrom == 2) {
 				dnaAOut = Character.toString(dnaA[aa]).concat(dnaAOut);
+				//dnaAOut = dnaAOut.concat(Character.toString(dnaA[aa]));
 				dnaBOut = Character.toString(dnaB[bb]).concat(dnaBOut);
+				//dnaBOut = dnaBOut.concat(Character.toString(dnaB[aa]));
+
 				aa = aa-1;
 				bb = bb-1;
 				ii=ii-1;
 				jj=jj-1; 
-
+				
 			}
 			else if (cameFrom == 1)
 			{
@@ -219,7 +231,7 @@ public class Efficient {
 				dnaBOut = "_".concat(dnaBOut);
 				aa = aa -1;
 				ii = ii-1; //could be jj	
-
+				
 			}
 			else if(cameFrom == -1)
 			{
@@ -231,7 +243,11 @@ public class Efficient {
 			}
 		}
 	}
-
+	
+	
+	
+	
+	
 	/**
 	 * This method returns the optimal value for this sequence alignment
 	 * @return - optimal value as an integer
@@ -464,5 +480,49 @@ public class Efficient {
 			throw new RuntimeException(e);
 		}
 	}
+	// ====================================orig basic call ============================================================
+	
+	private void initBasic() {
+		basic_OPT = new int[dnaA.length+1][dnaB.length+1];
+		basic_pathArry = new int[dnaA.length+1][dnaB.length+1];
 
+		for(int ii = 0; ii < basic_OPT.length; ii++)
+		{
+			basic_OPT[ii][0] = ii*DELTA; 
+		}
+		for(int ii = 0; ii < basic_OPT[0].length; ii++)
+		{
+			basic_OPT[0][ii] = ii*DELTA;
+		}
+		
+
+	}
+	private int basic() {
+
+		for(int ii =1; ii<= dnaA.length; ii++)
+		{
+			for(int jj =1; jj<= dnaB.length; jj++)
+			{
+				int case1 = getAlpha(dnaA[ii-1],dnaB[jj-1]) + basic_OPT[ii-1][jj-1]; // diagonal 
+				int case2 = DELTA + basic_OPT[ii-1][jj]; // vertical index above
+				int case3 =  DELTA + basic_OPT[ii][jj-1]; //horizontal to the left
+				int curr =  Math.min(case1, Math.min(case2, case3));
+				basic_OPT[ii][jj] = curr;
+				
+				if (curr == case1)
+				{
+					basic_pathArry[ii][jj] = 2; //diag
+				}
+				else if (curr == case2)
+				{
+					basic_pathArry[ii][jj] = 1; //top
+				}
+				else
+				{
+					basic_pathArry[ii][jj] = -1; //left
+				}
+			}
+		}
+		return basic_OPT[basic_OPT.length-1][basic_OPT[0].length-1];
+	}
 }
