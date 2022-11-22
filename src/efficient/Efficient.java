@@ -422,17 +422,23 @@ public class Efficient {
 
 	public static void main(String[] args) {
 		Efficient algo = null;
+		long beforeUsedMem = 0;
+		long startTime = 0;
+		long afterUsedMem = 0;
+		long endTime = 0;
+		long totalUsage = 0;
+		long totalTime = 0;
 		try {
 			String[] dnaStrings = parseStrings(args);
 			Map<String,Integer> alphaTableMap = initAlphaTableMap();
-			long beforeUsedMem=getMemoryInKB();
-			long startTime = getTimeInMilliseconds();
+			beforeUsedMem=getMemoryInKB();
+			startTime = getTimeInMilliseconds();
 			assert dnaStrings != null;
 			algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
-			long afterUsedMem = getMemoryInKB();
-			long endTime = getTimeInMilliseconds();
-			long totalUsage = afterUsedMem-beforeUsedMem;
-			long totalTime = endTime - startTime;
+			afterUsedMem = getMemoryInKB();
+			endTime = getTimeInMilliseconds();
+			totalUsage = afterUsedMem - beforeUsedMem;
+			totalTime = endTime - startTime;
 			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, "output.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
