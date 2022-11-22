@@ -410,12 +410,12 @@ public class Efficient {
 	}
 
 	//====================
-	public static double getMemoryInKB() {
-		double total = Runtime.getRuntime().totalMemory();
-		return (total-Runtime.getRuntime().freeMemory())/10e3;
+	public static long getMemoryInKB() {
+		long total = Runtime.getRuntime().totalMemory();
+		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
 	}
-	public static double getTimeInMilliseconds() {
-		return System.nanoTime()/10e6;
+	public static long getTimeInMilliseconds() {
+		return (long) (System.nanoTime()/1E+6);
 	}
 
 
@@ -425,14 +425,14 @@ public class Efficient {
 		try {
 			String[] dnaStrings = parseStrings(args);
 			Map<String,Integer> alphaTableMap = initAlphaTableMap();
-			double beforeUsedMem=getMemoryInKB();
-			double startTime = getTimeInMilliseconds();
+			long beforeUsedMem=getMemoryInKB();
+			long startTime = getTimeInMilliseconds();
 			assert dnaStrings != null;
 			algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
-			double afterUsedMem = getMemoryInKB();
-			double endTime = getTimeInMilliseconds();
-			double totalUsage = afterUsedMem-beforeUsedMem;
-			double totalTime = endTime - startTime;
+			long afterUsedMem = getMemoryInKB();
+			long endTime = getTimeInMilliseconds();
+			long totalUsage = afterUsedMem-beforeUsedMem;
+			long totalTime = endTime - startTime;
 			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, "output.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -445,7 +445,7 @@ public class Efficient {
 		algo.printdnaBOut();
 	}
 	
-	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
+	public static void toFile(int optVal, String DNA_A, String DNA_B, long totalMemory, long totalTime, String outFile)
 	{
 		try
 		{
