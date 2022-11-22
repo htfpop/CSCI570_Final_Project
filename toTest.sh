@@ -1,14 +1,13 @@
 #!/bin/bash
 PWD=pwd
 cd submit
-j=0
 for i in $(ls ../ProjectRequirements/datapoints/in*.txt)
 do
-STRING_NAME=output_basic$j.txt    
-STRING_NAME2=output_eff$j.txt
+BASEN=$(echo $(basename $i) |sed 's/.txt//g')
+STRING_NAME=output_basic_$BASEN.txt    
+STRING_NAME2=output_eff_$BASEN.txt
 ./basic.sh  $i $STRING_NAME
 ./efficient.sh $i $STRING_NAME2
-j=$((j+1))
 done 
 cd $PWD
 
