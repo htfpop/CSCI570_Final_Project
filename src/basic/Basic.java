@@ -21,9 +21,9 @@ public class Basic {
 
 	private int[][] spaceEfficientOpt;
 
-	
-	
-	
+
+
+
 	public Basic(char[] dnaA,char[] dnaB,Map<String,Integer> alphaTableMap, int gap) {
 		this.dnaA = dnaA;
 		this.dnaB = dnaB;
@@ -31,12 +31,12 @@ public class Basic {
 		initOPTArray();
 		buildOptArray();
 		backTrace();
-		
+
 	}
 
 
 
-	
+
 	/**
 	 * 
 	 */
@@ -71,7 +71,7 @@ public class Basic {
 				bb = bb-1;
 				ii=ii-1;
 				jj=jj-1; 
-				
+
 			}
 			else if (cameFrom == 1)
 			{
@@ -80,7 +80,7 @@ public class Basic {
 				dnaBOut = "_".concat(dnaBOut);
 				aa = aa -1;
 				ii = ii-1; //could be jj	
-				
+
 			}
 			else if(cameFrom == -1)
 			{
@@ -92,7 +92,7 @@ public class Basic {
 			}
 		}
 	}
-	
+
 
 
 	/**
@@ -111,7 +111,7 @@ public class Basic {
 		{
 			OPT[0][ii] = ii*DELTA;
 		}
-		
+
 
 	}
 	/**
@@ -128,7 +128,7 @@ public class Basic {
 				int case3 =  DELTA + OPT[ii][jj-1]; //horizontal to the left
 				int curr =  Math.min(case1, Math.min(case2, case3));
 				OPT[ii][jj] = curr;
-				
+
 				if (curr == case1)
 				{
 					pathArry[ii][jj] = 2; //diag
@@ -228,7 +228,7 @@ public class Basic {
 	public void printOptVal() {
 		System.out.println(String.valueOf(optVal));
 	}
-//================================static helper classes =============================================
+	//================================static helper classes =============================================
 	/**
 	 * This method is the initalphaTableMap this just constructs the alpah map that will be 
 	 * in this algorithm
@@ -297,7 +297,7 @@ public class Basic {
 
 		while(kb.hasNext())
 		{
-			
+
 			if(kb.hasNextInt())
 			{
 				i = kb.nextInt();
@@ -320,11 +320,11 @@ public class Basic {
 
 		dnaSeqs[0] = dnaSeq1;
 		dnaSeqs[1] = dnaSeq2; 
-		
+
 		kb.close();
 		return dnaSeqs;
 	}
-	
+
 	/**
 	 * Private static helper method to insert substrings into a string
 	 * @param s - original string
@@ -360,41 +360,39 @@ public class Basic {
 	{
 		return (double) (System.nanoTime()/1E+6);
 	}
-	
-//============================main basic call =======================================
+
+	//============================main basic call =======================================
 
 	public static void main (String[] args)
 	{
 		double beforeUsedMem = 0;
-		long startTime = 0;
+		double startTime = 0;
 		double afterUsedMem = 0;
-		long endTime = 0;
+		double endTime = 0;
 		double totalUsage = 0;
-		long totalTime = 0;
+		double totalTime = 0;
 		Basic algo = null;
+		String[] dnaStrings = null;
 		try {
-			String[] dnaStrings = parseStrings(args);
-			Map<String,Integer> alphaTableMap = initAlphaTableMap();
-			beforeUsedMem=getMemoryInKBDouble();
-			startTime = getTimeInMilliseconds();
-			assert dnaStrings != null;
-			algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
-			afterUsedMem = getMemoryInKBDouble();
-			endTime = getTimeInMilliseconds();
-			totalUsage = afterUsedMem-beforeUsedMem;
-			totalTime = endTime - startTime;
-			if(totalUsage < 0)
-				System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN BASIC\r\n");
-			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
+			dnaStrings= parseStrings(args);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assert algo != null;
+		Map<String,Integer> alphaTableMap = initAlphaTableMap();
+		
+		beforeUsedMem=getMemoryInKBDouble();
+		startTime = getTimeInMilliseconds();
+		algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
+		afterUsedMem = getMemoryInKBDouble();
+		endTime = getTimeInMilliseconds();
+		totalUsage = afterUsedMem-beforeUsedMem;
+		totalTime = endTime - startTime;
+		
+		if(totalUsage < 0)
+			System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN BASIC\r\n");
+		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
 		System.out.printf("(Basic %s) TOTAL USAGE: %f\r\n",args[0], totalUsage);
-		//algo.printOptVal();
-		//algo.printdnaAOut();
-		//algo.printdnaBOut();
+
 	}
 
 	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)

@@ -52,7 +52,7 @@ public class Efficient {
 		if(dnaA.length <= 2 || dnaB.length <= 2 ){
 			this.dnaA = dnaA;
 			this.dnaB = dnaB;
-				initBasic();
+			initBasic();
 			algo = basic();
 			backTrace();
 			return algo;
@@ -63,7 +63,7 @@ public class Efficient {
 		int q  = findOptimalQ(BL, BR);
 		int[] temp = new int[] {q,dnaB.length/2};
 		P.add(temp);
-		
+
 		opt1 += divideCAlignment(Arrays.copyOfRange(dnaA, 0  , q         ),   Arrays.copyOfRange(dnaB  ,0              , dnaB.length/2));
 		opt2 += divideCAlignment(Arrays.copyOfRange(dnaA,  q, dnaA.length), Arrays.copyOfRange(dnaB  , dnaB.length/2, dnaB.length));
 
@@ -193,7 +193,7 @@ public class Efficient {
 		String B = new StringBuilder(new String(dnaB)).reverse().toString();
 		dnaA = A.toCharArray();
 		dnaB = B.toCharArray();
-		
+
 		while(aa>= 0 || bb >=0)
 		{
 			int cameFrom = basic_pathArry[ii][jj];
@@ -222,7 +222,7 @@ public class Efficient {
 				bb = bb-1;
 				ii=ii-1;
 				jj=jj-1; 
-				
+
 			}
 			else if (cameFrom == 1)
 			{
@@ -231,7 +231,7 @@ public class Efficient {
 				dnaBOut = "_".concat(dnaBOut);
 				aa = aa -1;
 				ii = ii-1; //could be jj	
-				
+
 			}
 			else if(cameFrom == -1)
 			{
@@ -243,11 +243,11 @@ public class Efficient {
 			}
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * This method returns the optimal value for this sequence alignment
 	 * @return - optimal value as an integer
@@ -433,37 +433,34 @@ public class Efficient {
 	public static void main(String[] args) {
 		Efficient algo = null;
 		double beforeUsedMem = 0;
-		long startTime = 0;
+		double startTime = 0;
 		double afterUsedMem = 0;
-		long endTime = 0;
+		double endTime = 0;
 		double totalUsage = 0;
-		long totalTime = 0;
+		double totalTime = 0;
+		String[] dnaStrings =null; 
 		try {
-			String[] dnaStrings = parseStrings(args);
-			Map<String,Integer> alphaTableMap = initAlphaTableMap();
-			System.gc();
-			beforeUsedMem=getMemoryInKBDouble();
-			startTime = getTimeInMilliseconds();
-			assert dnaStrings != null;
-			algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
-			afterUsedMem = getMemoryInKBDouble();
-			endTime = getTimeInMilliseconds();
-			totalUsage = afterUsedMem - beforeUsedMem;
-			totalTime = endTime - startTime;
-			if(totalUsage < 0)
-				System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN EFFICIENT\r\n");
-			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
+			dnaStrings = parseStrings(args);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assert algo != null;
-		System.out.printf("(Eff %s) TOTAL USAGE: %f\r\n",args[0], totalUsage);
-		//algo.printOptVal();
-		//algo.printdnaAOut();
-		//algo.printdnaBOut();
+		Map<String,Integer> alphaTableMap = initAlphaTableMap();
+		
+		beforeUsedMem=getMemoryInKBDouble();
+		startTime = getTimeInMilliseconds();
+		algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
+		afterUsedMem = getMemoryInKBDouble();
+		endTime = getTimeInMilliseconds();
+		totalUsage = afterUsedMem - beforeUsedMem;
+		totalTime = endTime - startTime;
+		
+		if(totalUsage < 0)
+			System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN EFFICIENT\r\n");
+			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
+			System.out.printf("(Eff %s) TOTAL USAGE: %f\r\n",args[0], totalUsage);
+
 	}
-	
+
 	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
 	{
 		try
@@ -501,7 +498,7 @@ public class Efficient {
 		}
 	}
 	// ====================================orig basic call ============================================================
-	
+
 	private void initBasic() {
 		basic_OPT = new int[dnaA.length+1][dnaB.length+1];
 		basic_pathArry = new int[dnaA.length+1][dnaB.length+1];
@@ -514,7 +511,7 @@ public class Efficient {
 		{
 			basic_OPT[0][ii] = ii*DELTA;
 		}
-		
+
 
 	}
 	private int basic() {
@@ -528,7 +525,7 @@ public class Efficient {
 				int case3 =  DELTA + basic_OPT[ii][jj-1]; //horizontal to the left
 				int curr =  Math.min(case1, Math.min(case2, case3));
 				basic_OPT[ii][jj] = curr;
-				
+
 				if (curr == case1)
 				{
 					basic_pathArry[ii][jj] = 2; //diag
