@@ -40,21 +40,28 @@ public class TestInputStringGenerator {
 		String[] listOfFiles = new String[]{
 				//"input1.txt",
 				"in0.txt",
-											"in1.txt",
-											"in2.txt",
-											"in3.txt",
-											"in4.txt",
-											"in5.txt",
-											"in6.txt",
-											"in7.txt",
-											"in8.txt",
-											"in9.txt",
-											"in10.txt",
-											"in11.txt",
-											"in12.txt",
-											"in13.txt",
-											"in14.txt",
-											"in15.txt"};
+				"in1.txt",
+				"in2.txt",
+				"in3.txt",
+				"in4.txt",
+				"in5.txt",
+				"in6.txt",
+				"in7.txt",
+				"in8.txt",
+				"in9.txt",
+				"in10.txt",
+				"in11.txt",
+				"in12.txt",
+				"in13.txt",
+				"in14.txt",
+				"in15.txt",
+				"in16.txt",
+				"in17.txt",
+				"in18.txt",
+				"in19.txt",
+				"in20.txt",
+				"in21.txt"
+		};
 		
 //		// if new file then need to add testing measurements to dnaA and dnaB
 //		String[] listOfFiles = new String[]{
@@ -222,12 +229,12 @@ public class TestInputStringGenerator {
 		int BasicOptVal_column = 4;
 		int BasicTime_column = 5;
 		int BasicUtilization_column = 6;
-		long afterUsedMem = 0;
-		long endTime = 0;
-		long totalUsage = 0;
-		long totalTime = 0;
-		long beforeUsedMem = 0;
-		long startTime = 0;
+		double afterUsedMem = 0;
+		double endTime = 0;
+		double totalUsage = 0;
+		double totalTime = 0;
+		double beforeUsedMem = 0;
+		double startTime = 0;
 		//Create Excel Workbook
 		writeXLSX writeToExcel = new writeXLSX("output//excelOut_datapoints.xlsx");
 
@@ -241,14 +248,16 @@ public class TestInputStringGenerator {
 				String[] strArry = new String[] {filePath};
 				String[] dnaStrings = Basic.parseStrings(strArry);
 
-				beforeUsedMem= getMemoryInKB();
-				startTime = getTimeInMilliseconds();
+				System.gc();
+
+				beforeUsedMem= getMemoryInKBDouble();
+				startTime = getTimeInMillisecondsDouble();
 
 				Efficient algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
 
-				afterUsedMem = getMemoryInKB();
+				afterUsedMem = getMemoryInKBDouble();
 
-				endTime = getTimeInMilliseconds();
+				endTime = getTimeInMillisecondsDouble();
 
 				totalUsage = afterUsedMem - beforeUsedMem;
 				totalTime = endTime - startTime;
@@ -259,15 +268,15 @@ public class TestInputStringGenerator {
 				algo.printdnaBOut();
 				gapCounter(algo.getDnaBOut());
 
-				System.out.printf("Total Time: %d ms\r\n", totalTime);
-				System.out.printf("Before Memory Usage: %d KB\r\n", beforeUsedMem);
-				System.out.printf("After Memory Usage: %d KB\r\n", afterUsedMem);
-				System.out.printf("Total Utilization: %d KB\r\n", totalUsage);
+				System.out.printf("Total Time: %f ms\r\n", totalTime);
+				System.out.printf("Before Memory Usage: %f KB\r\n", beforeUsedMem);
+				System.out.printf("After Memory Usage: %f KB\r\n", afterUsedMem);
+				System.out.printf("Total Utilization: %f KB\r\n", totalUsage);
 
 				writeToExcel.writeInt(rowCnt,n_column,algo.getDnaAOut().length());
 				writeToExcel.writeInt(rowCnt, EffOptVal_column, algo.getOptVal());
-				writeToExcel.writeLong(rowCnt, EffTime_column, totalTime);
-				writeToExcel.writeLong(rowCnt, EffUtilization_column, totalUsage);
+				writeToExcel.writeDouble(rowCnt, EffTime_column, totalTime);
+				writeToExcel.writeDouble(rowCnt, EffUtilization_column, totalUsage);
 
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
@@ -279,18 +288,19 @@ public class TestInputStringGenerator {
 				endTime = 0;
 				totalUsage = 0;
 				totalTime = 0;
-				Runtime.getRuntime().gc();
+
 
 				System.out.println("********basic******** Testing file: " + filePath);
-				
-				beforeUsedMem=getMemoryInKB();
-				startTime = getTimeInMilliseconds();
+
+				System.gc();
+				beforeUsedMem=getMemoryInKBDouble();
+				startTime = getTimeInMillisecondsDouble();
 				
 				Basic algo1 = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
 
-				afterUsedMem = getMemoryInKB();
+				afterUsedMem = getMemoryInKBDouble();
 
-				endTime = getTimeInMilliseconds();
+				endTime = getTimeInMillisecondsDouble();
 
 				totalUsage = afterUsedMem - beforeUsedMem;
 				totalTime = endTime - startTime;
@@ -301,14 +311,14 @@ public class TestInputStringGenerator {
 				algo1.printdnaBOut();
 				gapCounter(algo1.getDnaBOut());
 
-				System.out.printf("Total Time: %d ms\r\n", totalTime);
-				System.out.printf("Before Memory Usage: %d KB\r\n", beforeUsedMem);
-				System.out.printf("After Memory Usage: %d KB\r\n", afterUsedMem);
-				System.out.printf("Total Utilization: %d KB\r\n",totalUsage);
+				System.out.printf("Total Time: %f ms\r\n", totalTime);
+				System.out.printf("Before Memory Usage: %f KB\r\n", beforeUsedMem);
+				System.out.printf("After Memory Usage: %f KB\r\n", afterUsedMem);
+				System.out.printf("Total Utilization: %f KB\r\n",totalUsage);
 
 				writeToExcel.writeInt(rowCnt, BasicOptVal_column, algo1.getOptVal());
-				writeToExcel.writeLong(rowCnt, BasicTime_column, totalTime);
-				writeToExcel.writeLong(rowCnt, BasicUtilization_column, totalUsage);
+				writeToExcel.writeDouble(rowCnt, BasicTime_column, totalTime);
+				writeToExcel.writeDouble(rowCnt, BasicUtilization_column, totalUsage);
 				System.out.println("=================================================");
 
 				algo1 = null;
@@ -321,7 +331,7 @@ public class TestInputStringGenerator {
 				totalTime = 0;
 
 				//cleanup
-				Runtime.getRuntime().gc();
+				System.gc();
 
 				rowCnt++;
 			}
@@ -359,6 +369,16 @@ public class TestInputStringGenerator {
 	}
 	private static long getTimeInMilliseconds() {
 		return (long) (System.nanoTime()/1E+6);
+	}
+
+	public static double getMemoryInKBDouble()
+	{
+		double total = Runtime.getRuntime().totalMemory();
+		return (total - Runtime.getRuntime().freeMemory()) / 1E+3;
+	}
+	public static double getTimeInMillisecondsDouble()
+	{
+		return (double) (System.nanoTime()/1E+6);
 	}
 
 //=========================================================================================================================================================
