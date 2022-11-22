@@ -441,6 +441,7 @@ public class Efficient {
 		try {
 			String[] dnaStrings = parseStrings(args);
 			Map<String,Integer> alphaTableMap = initAlphaTableMap();
+			System.gc();
 			beforeUsedMem=getMemoryInKBDouble();
 			startTime = getTimeInMilliseconds();
 			assert dnaStrings != null;
