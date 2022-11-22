@@ -410,11 +410,12 @@ public class Efficient {
 	}
 
 	//====================
-	public static long getMemoryInKB() {
+	private static long getMemoryInKB() {
 		long total = Runtime.getRuntime().totalMemory();
+		System.out.printf("Total Memory: %d\r\n",total);
 		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
 	}
-	public static long getTimeInMilliseconds() {
+	private static long getTimeInMilliseconds() {
 		return (long) (System.nanoTime()/1E+6);
 	}
 
