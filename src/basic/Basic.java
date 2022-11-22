@@ -341,12 +341,12 @@ public class Basic {
 
 		return s.substring(0,index+1)+s+s.substring(index+1);
 	}
-	public static double getMemoryInKB() {
-		double total = Runtime.getRuntime().totalMemory();
-		return (total - Runtime.getRuntime().freeMemory())/10e3;
-		}
-	public static double getTimeInMilliseconds() {
-		return System.nanoTime()/10e6;
+	public static long getMemoryInKB() {
+		long total = Runtime.getRuntime().totalMemory();
+		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
+	}
+	public static long getTimeInMilliseconds() {
+		return (long) (System.nanoTime()/1E+6);
 		}
 	
 //============================main basic call =======================================

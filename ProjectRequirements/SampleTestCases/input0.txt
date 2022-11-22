@@ -1,2 +1,4 @@
-ACTG
+ACGT
+2
 TACG
+2
