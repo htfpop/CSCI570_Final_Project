@@ -412,7 +412,6 @@ public class Efficient {
 	//====================
 	private static long getMemoryInKB() {
 		long total = Runtime.getRuntime().totalMemory();
-		System.out.printf("Total Memory: %d\r\n",total);
 		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
 	}
 	private static long getTimeInMilliseconds() {
@@ -440,6 +439,8 @@ public class Efficient {
 			endTime = getTimeInMilliseconds();
 			totalUsage = afterUsedMem - beforeUsedMem;
 			totalTime = endTime - startTime;
+			if(totalUsage < 0)
+				System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN EFFICIENT\r\n");
 			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -475,6 +476,7 @@ public class Efficient {
 			pw.println();
 
 			pw.close();
+			fw.close();
 
 		}
 		catch(FileNotFoundException e)

@@ -371,6 +371,8 @@ public class Basic {
 			endTime = getTimeInMilliseconds();
 			totalUsage = afterUsedMem-beforeUsedMem;
 			totalTime = endTime - startTime;
+			if(totalUsage < 0)
+				System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN BASIC\r\n");
 			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
