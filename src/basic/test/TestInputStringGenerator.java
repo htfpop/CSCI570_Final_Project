@@ -3,6 +3,7 @@ package basic.test;
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Before;
@@ -10,54 +11,60 @@ import org.junit.Test;
 
 import basic.Basic;
 import efficient.Efficient;
+import excelWriter.writeXLSX;
+
+
 
 public class TestInputStringGenerator {
 	Basic parsedFile;
-	ArrayList<String> listOfPaths;
-	String[] dnaA;
-	String[] dnaB;
+	static ArrayList<String> listOfPaths;
+	static String[] dnaA;
+	static String[] dnaB;
 
 	/**
 	 * SETTING UP BEFORE TEST
 	 * @throws Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 
 		//need to be RELATIVE PATH  for this to work on everyones machine or use full path but do not commit 
 		//String filePath = "ProjectRequirements\\\\datapoints\\\\";
-		String filePath = "ProjectRequirements\\\\SampleTestCases\\\\";
+		//String filePath = "ProjectRequirements\\\\SampleTestCases\\\\";
+		//String filePath = "ProjectRequirements//SampleTestCases//";  //path fix for MacOS
+		String filePath = "ProjectRequirements//datapoints//";
 
 
-//		// if new file then need to add testing measurements to dnaA and dnaB
-//		String[] listOfFiles = new String[]{
-//				//"input1.txt",
-//				"in0.txt",
-//											"in1.txt",
-//											"in2.txt",
-//											"in3.txt",
-//											"in4.txt",
-//											"in5.txt",
-//											"in6.txt",
-//											"in7.txt",
-//											"in8.txt",
-//											"in9.txt",
-//											"in10.txt",
-//											"in11.txt",
-//											"in12.txt",
-//											"in13.txt",
-//											"in14.txt",
-//											"in15.txt"};
-		
+
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-											"input0.txt",
-											"input1.txt",
-											"input2.txt",
-											"input3.txt",
-											"input4.txt",
-											"input5.txt",
-};
+				//"input1.txt",
+				"in0.txt",
+											"in1.txt",
+											"in2.txt",
+											"in3.txt",
+											"in4.txt",
+											"in5.txt",
+											"in6.txt",
+											"in7.txt",
+											"in8.txt",
+											"in9.txt",
+											"in10.txt",
+											"in11.txt",
+											"in12.txt",
+											"in13.txt",
+											"in14.txt",
+											"in15.txt"};
+		
+//		// if new file then need to add testing measurements to dnaA and dnaB
+//		String[] listOfFiles = new String[]{
+//											"input0.txt",
+//											"input1.txt",
+//											"input2.txt",
+//											"input3.txt",
+//											"input4.txt",
+//											"input5.txt",
+//};
 
 		listOfPaths = new ArrayList<>();
 		for(String str : listOfFiles) {
@@ -110,162 +117,216 @@ public class TestInputStringGenerator {
 
 	}
 
-	/**
-	 * MAIN TEST
-	 */
-	//@Test
-	public void basic() {
-		try {
-			int cnt=0; 
-			for(String filePath : listOfPaths) {
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-				System.out.println("********basic******** Testing file: " + filePath);
-				String[] strArry = new String[] {filePath}; 
-				String[] dnaStrings = Basic.parseStrings(strArry);
-				
-				double beforeUsedMem=Basic.getMemoryInKB();
-				double startTime = Basic.getTimeInMilliseconds();
-				
-				Basic algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
-				double afterUsedMem = Basic.getMemoryInKB();
-				double endTime = Basic.getTimeInMilliseconds();
-				double totalUsage = afterUsedMem-beforeUsedMem;
-				double totalTime = endTime - startTime;
-				String dnaSeqA = algo.getDnaA();
-				String dnaSeqB = algo.getDnaB();
-				//System.out.println("A :" + dnaSeqA);
-				//System.out.println("B :" + dnaSeqB);
-				//algo.printArray();
-				algo.printOptVal();
-				algo.printdnaAOut();
-				algo.printdnaBOut();
-				System.out.println(String.valueOf(totalTime));
-				System.out.println(String.valueOf(totalUsage));
-				//gapCounterTest();
-				assertEquals("DNA A", dnaA[cnt], dnaSeqA);
-				assertEquals("DNA B", dnaB[cnt], dnaSeqB);
-				System.out.println("=================================================");
-				cnt++; 
-			}
-		}
-		catch(FileNotFoundException fnf) {
-			System.out.println("File not FOUND");
-			fnf.printStackTrace();
-		}
-		catch(Exception ee) {
-			System.out.println("There was a fail in the basic");
-			ee.printStackTrace();
-		}
-
-	}
-
-	//=========================================================================================================================================================
-	
-	//@Test
-	public void efficient() {
-		try {
-			int cnt=0; 
-			for(String filePath : listOfPaths) {
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-				System.out.println("********efficient******** Testing file: " + filePath);
-				String[] strArry = new String[] {filePath}; 
-				String[] dnaStrings = Basic.parseStrings(strArry);
-				
-				double beforeUsedMem=Basic.getMemoryInKB();
-				double startTime = Basic.getTimeInMilliseconds();
-				
-				Efficient algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
-				double afterUsedMem = Basic.getMemoryInKB();
-				double endTime = Basic.getTimeInMilliseconds();
-				double totalUsage = afterUsedMem-beforeUsedMem;
-				double totalTime = endTime - startTime;
-				//String dnaSeqA = algo.getDnaA();
-				//String dnaSeqB = algo.getDnaB();
-				//System.out.println("A :" + dnaSeqA);
-				//System.out.println("B :" + dnaSeqB);
-				//parsedFile.printArray();
-				algo.printOptVal();
-				//algo.printdnaAOut();
-				//algo.printdnaBOut();
-				System.out.println(String.valueOf(totalTime));
-				System.out.println(String.valueOf(totalUsage));
-				//assertEquals("DNA A", dnaA[cnt], dnaSeqA);
-				//assertEquals("DNA B", dnaB[cnt], dnaSeqB);
-				System.out.println("=================================================");
-				cnt++; 
-			}
-		}
-		catch(FileNotFoundException fnf) {
-			System.out.println("File not FOUND");
-			fnf.printStackTrace();
-		}
-		catch(Exception ee) {
-			System.out.println("There was a fail in the efficient");
-			ee.printStackTrace();
-		}
-
-	}
+//	/**
+//	 * MAIN TEST
+//	 */
+//	//@Test
+//	public void basic() {
+//		try {
+//			int cnt=0;
+//			for(String filePath : listOfPaths) {
+//				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//				System.out.println("********basic******** Testing file: " + filePath);
+//				String[] strArry = new String[] {filePath};
+//				String[] dnaStrings = Basic.parseStrings(strArry);
+//
+//				double beforeUsedMem=Basic.getMemoryInKB();
+//				double startTime = Basic.getTimeInMilliseconds();
+//
+//				Basic algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
+//				double afterUsedMem = Basic.getMemoryInKB();
+//				double endTime = Basic.getTimeInMilliseconds();
+//				double totalUsage = afterUsedMem-beforeUsedMem;
+//				double totalTime = endTime - startTime;
+//				String dnaSeqA = algo.getDnaA();
+//				String dnaSeqB = algo.getDnaB();
+//				//System.out.println("A :" + dnaSeqA);
+//				//System.out.println("B :" + dnaSeqB);
+//				//algo.printArray();
+//				algo.printOptVal();
+//				algo.printdnaAOut();
+//				algo.printdnaBOut();
+//				System.out.println(String.valueOf(totalTime));
+//				System.out.println(String.valueOf(totalUsage));
+//				//gapCounterTest();
+//				assertEquals("DNA A", dnaA[cnt], dnaSeqA);
+//				assertEquals("DNA B", dnaB[cnt], dnaSeqB);
+//				System.out.println("=================================================");
+//				cnt++;
+//			}
+//		}
+//		catch(FileNotFoundException fnf) {
+//			System.out.println("File not FOUND");
+//			fnf.printStackTrace();
+//		}
+//		catch(Exception ee) {
+//			System.out.println("There was a fail in the basic");
+//			ee.printStackTrace();
+//		}
+//
+//	}
+//
+//	//=========================================================================================================================================================
+//
+//	//@Test
+//	public void efficient() {
+//		try {
+//			int cnt=0;
+//			for(String filePath : listOfPaths) {
+//				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//				System.out.println("********efficient******** Testing file: " + filePath);
+//				String[] strArry = new String[] {filePath};
+//				String[] dnaStrings = Basic.parseStrings(strArry);
+//
+//				double beforeUsedMem=Basic.getMemoryInKB();
+//				double startTime = Basic.getTimeInMilliseconds();
+//
+//				Efficient algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
+//				double afterUsedMem = Basic.getMemoryInKB();
+//				double endTime = Basic.getTimeInMilliseconds();
+//				double totalUsage = afterUsedMem-beforeUsedMem;
+//				double totalTime = endTime - startTime;
+//				//String dnaSeqA = algo.getDnaA();
+//				//String dnaSeqB = algo.getDnaB();
+//				//System.out.println("A :" + dnaSeqA);
+//				//System.out.println("B :" + dnaSeqB);
+//				//parsedFile.printArray();
+//				algo.printOptVal();
+//				//algo.printdnaAOut();
+//				//algo.printdnaBOut();
+//				System.out.println(String.valueOf(totalTime));
+//				System.out.println(String.valueOf(totalUsage));
+//				//assertEquals("DNA A", dnaA[cnt], dnaSeqA);
+//				//assertEquals("DNA B", dnaB[cnt], dnaSeqB);
+//				System.out.println("=================================================");
+//				cnt++;
+//			}
+//		}
+//		catch(FileNotFoundException fnf) {
+//			System.out.println("File not FOUND");
+//			fnf.printStackTrace();
+//		}
+//		catch(Exception ee) {
+//			System.out.println("There was a fail in the efficient");
+//			ee.printStackTrace();
+//		}
+//
+//	}
 	@Test
-	public void both() {
+	public static void both() throws IOException {
+		int rowCnt = 1;
+		int n_column = 0;
+		int EffOptVal_column = 1;
+		int EffTime_column = 2;
+		int EffUtilization_column = 3;
+		int BasicOptVal_column = 4;
+		int BasicTime_column = 5;
+		int BasicUtilization_column = 6;
+		long afterUsedMem = 0;
+		long endTime = 0;
+		long totalUsage = 0;
+		long totalTime = 0;
+		long beforeUsedMem = 0;
+		long startTime = 0;
+		//Create Excel Workbook
+		writeXLSX writeToExcel = new writeXLSX("output//excelOut_datapoints.xlsx");
+
+		//Setup Excel column names
+		setExcelHeader(writeToExcel);
+
 		try {
-			int cnt=0; 
-			for(String filePath : listOfPaths) {
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			for(String filePath : listOfPaths)
+			{
 				System.out.println("********efficient******** Testing file: " + filePath);
-				String[] strArry = new String[] {filePath}; 
+				String[] strArry = new String[] {filePath};
 				String[] dnaStrings = Basic.parseStrings(strArry);
-				
-				double beforeUsedMem=Basic.getMemoryInKB();
-				double startTime = Basic.getTimeInMilliseconds();
-				
+
+				beforeUsedMem= getMemoryInKB();
+				startTime = getTimeInMilliseconds();
+
 				Efficient algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
-				double afterUsedMem = Basic.getMemoryInKB();
-				double endTime = Basic.getTimeInMilliseconds();
-				double totalUsage = afterUsedMem-beforeUsedMem;
-				double totalTime = endTime - startTime;
-				//String dnaSeqA = algo.getDnaA();
-				//String dnaSeqB = algo.getDnaB();
-				//System.out.println("A :" + dnaSeqA);
-				//System.out.println("B :" + dnaSeqB);
-				//parsedFile.printArray();
+
+				afterUsedMem = getMemoryInKB();
+
+				endTime = getTimeInMilliseconds();
+
+				totalUsage = afterUsedMem - beforeUsedMem;
+				totalTime = endTime - startTime;
+
 				algo.printOptVal();
 				algo.printdnaAOut();
-				gapCounter(algo.getDnaAOut()); 
+				gapCounter(algo.getDnaAOut());
 				algo.printdnaBOut();
 				gapCounter(algo.getDnaBOut());
-				System.out.println(String.valueOf(totalTime));
-				System.out.println(String.valueOf(totalUsage));
-				//assertEquals("DNA A", dnaA[cnt], dnaSeqA);
-				//assertEquals("DNA B", dnaB[cnt], dnaSeqB);
-				System.out.println("=================================================");
+
+				System.out.printf("Total Time: %d ms\r\n", totalTime);
+				System.out.printf("Before Memory Usage: %d KB\r\n", beforeUsedMem);
+				System.out.printf("After Memory Usage: %d KB\r\n", afterUsedMem);
+				System.out.printf("Total Utilization: %d KB\r\n", totalUsage);
+
+				writeToExcel.writeInt(rowCnt,n_column,algo.getDnaAOut().length());
+				writeToExcel.writeInt(rowCnt, EffOptVal_column, algo.getOptVal());
+				writeToExcel.writeLong(rowCnt, EffTime_column, totalTime);
+				writeToExcel.writeLong(rowCnt, EffUtilization_column, totalUsage);
+
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+				//Need to free the object?
+				algo = null;
+				beforeUsedMem = 0;
+				afterUsedMem = 0;
+				startTime = 0;
+				endTime = 0;
+				totalUsage = 0;
+				totalTime = 0;
+				Runtime.getRuntime().gc();
+
 				System.out.println("********basic******** Testing file: " + filePath);
 				
-				beforeUsedMem=Basic.getMemoryInKB();
-				startTime = Basic.getTimeInMilliseconds();
+				beforeUsedMem=getMemoryInKB();
+				startTime = getTimeInMilliseconds();
 				
 				Basic algo1 = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),Basic.initAlphaTableMap(),30);
-				 afterUsedMem = Basic.getMemoryInKB();
-				 endTime = Basic.getTimeInMilliseconds();
-				 totalUsage = afterUsedMem-beforeUsedMem;
-				 totalTime = endTime - startTime;
-				String dnaSeqA = algo.getDnaA();
-				String dnaSeqB = algo.getDnaB();
-				//System.out.println("A :" + dnaSeqA);
-				//System.out.println("B :" + dnaSeqB);
-				//algo.printArray();
+
+				afterUsedMem = getMemoryInKB();
+
+				endTime = getTimeInMilliseconds();
+
+				totalUsage = afterUsedMem - beforeUsedMem;
+				totalTime = endTime - startTime;
+
 				algo1.printOptVal();
 				algo1.printdnaAOut();
 				gapCounter(algo1.getDnaAOut()); 
 				algo1.printdnaBOut();
-				gapCounter(algo1.getDnaBOut()); 
+				gapCounter(algo1.getDnaBOut());
 
-				System.out.println(String.valueOf(totalTime));
-				System.out.println(String.valueOf(totalUsage));
-				
-				
-				cnt++; 
+				System.out.printf("Total Time: %d ms\r\n", totalTime);
+				System.out.printf("Before Memory Usage: %d KB\r\n", beforeUsedMem);
+				System.out.printf("After Memory Usage: %d KB\r\n", afterUsedMem);
+				System.out.printf("Total Utilization: %d KB\r\n",totalUsage);
+
+				writeToExcel.writeInt(rowCnt, BasicOptVal_column, algo1.getOptVal());
+				writeToExcel.writeLong(rowCnt, BasicTime_column, totalTime);
+				writeToExcel.writeLong(rowCnt, BasicUtilization_column, totalUsage);
+				System.out.println("=================================================");
+
+				algo1 = null;
+
+				beforeUsedMem = 0;
+				afterUsedMem = 0;
+				startTime = 0;
+				endTime = 0;
+				totalUsage = 0;
+				totalTime = 0;
+
+				//cleanup
+				Runtime.getRuntime().gc();
+
+				rowCnt++;
 			}
+
+			writeToExcel.close();
 		}
 		catch(FileNotFoundException fnf) {
 			System.out.println("File not FOUND");
@@ -278,9 +339,31 @@ public class TestInputStringGenerator {
 	
 	}
 
+	private static void setExcelHeader(writeXLSX excelWriter) {
+		//N, EffOptVal, EffTime, EffUtilization, BasicOptVal, BasicTime, BasicUtilization
+
+		excelWriter.writeString(0, 0, "N");
+		excelWriter.writeString(0, 1, "EffOptVal");
+		excelWriter.writeString(0, 2, "EffTime");
+		excelWriter.writeString(0, 3, "EffUtilization");
+		excelWriter.writeString(0, 4, "BasicOptVal");
+		excelWriter.writeString(0, 5, "BasicTime");
+		excelWriter.writeString(0, 6, "BasicUtilization");
+
+	}
+
+	private static long getMemoryInKB() {
+		long total = Runtime.getRuntime().totalMemory();
+		System.out.printf("Total Memory: %d\r\n",total);
+		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
+	}
+	private static long getTimeInMilliseconds() {
+		return (long) (System.nanoTime()/1E+6);
+	}
+
 //=========================================================================================================================================================
 	
-	public void gapCounterTest() {
+	public static void gapCounterTest() {
 
 		String[] gaps = {
 				"_ACTG",
@@ -306,7 +389,7 @@ public class TestInputStringGenerator {
 
 	}
 
-	public void gapCounter(String s)
+	public static void gapCounter(String s)
 	{
 		int retVal = 0;
 		for(int i = 0; i < s.length(); i++)
@@ -317,5 +400,16 @@ public class TestInputStringGenerator {
 
 		System.out.printf("Number of Gaps: %d\r\n", retVal);
 	}
+
+	/**
+	 * Need main for MacOS
+	 * @param args - possibly input string
+	 * @throws Exception - file not found
+	 */
+	public static void main(String[] args) throws Exception {
+		setUp();
+		both();
+	}
+
 }
 
