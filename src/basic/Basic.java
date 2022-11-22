@@ -341,33 +341,45 @@ public class Basic {
 
 		return s.substring(0,index+1)+s+s.substring(index+1);
 	}
-	public static long getMemoryInKB() {
+	public static long getMemoryInKB()
+	{
 		long total = Runtime.getRuntime().totalMemory();
 		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
 	}
-	public static long getTimeInMilliseconds() {
+	public static long getTimeInMilliseconds()
+	{
 		return (long) (System.nanoTime()/1E+6);
-		}
+	}
+
+	public static double getMemoryInKBDouble()
+	{
+		double total = Runtime.getRuntime().totalMemory();
+		return (total - Runtime.getRuntime().freeMemory()) / 1E+3;
+	}
+	public static double getTimeInMillisecondsDouble()
+	{
+		return (double) (System.nanoTime()/1E+6);
+	}
 	
 //============================main basic call =======================================
 
 	public static void main (String[] args)
 	{
-		long beforeUsedMem = 0;
+		double beforeUsedMem = 0;
 		long startTime = 0;
-		long afterUsedMem = 0;
+		double afterUsedMem = 0;
 		long endTime = 0;
-		long totalUsage = 0;
+		double totalUsage = 0;
 		long totalTime = 0;
 		Basic algo = null;
 		try {
 			String[] dnaStrings = parseStrings(args);
 			Map<String,Integer> alphaTableMap = initAlphaTableMap();
-			beforeUsedMem=getMemoryInKB();
+			beforeUsedMem=getMemoryInKBDouble();
 			startTime = getTimeInMilliseconds();
 			assert dnaStrings != null;
 			algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
-			afterUsedMem = getMemoryInKB();
+			afterUsedMem = getMemoryInKBDouble();
 			endTime = getTimeInMilliseconds();
 			totalUsage = afterUsedMem-beforeUsedMem;
 			totalTime = endTime - startTime;
@@ -379,13 +391,13 @@ public class Basic {
 			e.printStackTrace();
 		}
 		assert algo != null;
-		System.out.printf("(Basic %s) TOTAL USAGE: %d\r\n",args[0], totalUsage);
+		System.out.printf("(Basic %s) TOTAL USAGE: %f\r\n",args[0], totalUsage);
 		//algo.printOptVal();
 		//algo.printdnaAOut();
 		//algo.printdnaBOut();
 	}
 
-	public static void toFile(int optVal, String DNA_A, String DNA_B, long totalMemory, long totalTime, String outFile)
+	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
 	{
 		try
 		{
