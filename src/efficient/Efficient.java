@@ -445,7 +445,8 @@ public class Efficient {
 			e.printStackTrace();
 		}
 		Map<String,Integer> alphaTableMap = initAlphaTableMap();
-		
+
+		System.gc();
 		beforeUsedMem=getMemoryInKBDouble();
 		startTime = getTimeInMilliseconds();
 		algo = new Efficient(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
