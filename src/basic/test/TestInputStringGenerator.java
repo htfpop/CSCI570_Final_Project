@@ -222,7 +222,7 @@ public class TestInputStringGenerator {
 	@Test
 	public static void both() throws IOException {
 		int rowCnt = 1;
-		int n_column = 0;
+		int m_n_column = 0;
 		int EffOptVal_column = 1;
 		int EffTime_column = 2;
 		int EffUtilization_column = 3;
@@ -273,7 +273,7 @@ public class TestInputStringGenerator {
 				System.out.printf("After Memory Usage: %f KB\r\n", afterUsedMem);
 				System.out.printf("Total Utilization: %f KB\r\n", totalUsage);
 
-				writeToExcel.writeInt(rowCnt,n_column,algo.getDnaAOut().length());
+				writeToExcel.writeInt(rowCnt,m_n_column,dnaStrings[0].length() + dnaStrings[1].length());
 				writeToExcel.writeInt(rowCnt, EffOptVal_column, algo.getOptVal());
 				writeToExcel.writeDouble(rowCnt, EffTime_column, totalTime);
 				writeToExcel.writeDouble(rowCnt, EffUtilization_column, totalUsage);
@@ -352,7 +352,7 @@ public class TestInputStringGenerator {
 	private static void setExcelHeader(writeXLSX excelWriter) {
 		//N, EffOptVal, EffTime, EffUtilization, BasicOptVal, BasicTime, BasicUtilization
 
-		excelWriter.writeString(0, 0, "N");
+		excelWriter.writeString(0, 0, "M+N");
 		excelWriter.writeString(0, 1, "EffOptVal");
 		excelWriter.writeString(0, 2, "EffTime");
 		excelWriter.writeString(0, 3, "EffUtilization");
