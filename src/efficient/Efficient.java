@@ -439,14 +439,13 @@ public class Efficient {
 			endTime = getTimeInMilliseconds();
 			totalUsage = afterUsedMem - beforeUsedMem;
 			totalTime = endTime - startTime;
-			System.out.printf("TOTAL USAGE: %d\r\n",totalUsage);
 			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assert algo != null;
-
+		System.out.printf("(Eff %s) TOTAL USAGE: %d\r\n",args[0], totalUsage);
 		//algo.printOptVal();
 		//algo.printdnaAOut();
 		//algo.printdnaBOut();
