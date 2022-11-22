@@ -31,39 +31,40 @@ public class TestInputStringGenerator {
 		//need to be RELATIVE PATH  for this to work on everyones machine or use full path but do not commit 
 		//String filePath = "ProjectRequirements\\\\datapoints\\\\";
 		//String filePath = "ProjectRequirements\\\\SampleTestCases\\\\";
-		String filePath = "ProjectRequirements//SampleTestCases//";  //path fix for MacOS
+		//String filePath = "ProjectRequirements//SampleTestCases//";  //path fix for MacOS
+		String filePath = "ProjectRequirements//datapoints//";
 
 
 
-//		// if new file then need to add testing measurements to dnaA and dnaB
-//		String[] listOfFiles = new String[]{
-//				//"input1.txt",
-//				"in0.txt",
-//											"in1.txt",
-//											"in2.txt",
-//											"in3.txt",
-//											"in4.txt",
-//											"in5.txt",
-//											"in6.txt",
-//											"in7.txt",
-//											"in8.txt",
-//											"in9.txt",
-//											"in10.txt",
-//											"in11.txt",
-//											"in12.txt",
-//											"in13.txt",
-//											"in14.txt",
-//											"in15.txt"};
-		
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-											"input0.txt",
-											"input1.txt",
-											"input2.txt",
-											"input3.txt",
-											"input4.txt",
-											"input5.txt",
-};
+				//"input1.txt",
+				"in0.txt",
+											"in1.txt",
+											"in2.txt",
+											"in3.txt",
+											"in4.txt",
+											"in5.txt",
+											"in6.txt",
+											"in7.txt",
+											"in8.txt",
+											"in9.txt",
+											"in10.txt",
+											"in11.txt",
+											"in12.txt",
+											"in13.txt",
+											"in14.txt",
+											"in15.txt"};
+		
+//		// if new file then need to add testing measurements to dnaA and dnaB
+//		String[] listOfFiles = new String[]{
+//											"input0.txt",
+//											"input1.txt",
+//											"input2.txt",
+//											"input3.txt",
+//											"input4.txt",
+//											"input5.txt",
+//};
 
 		listOfPaths = new ArrayList<>();
 		for(String str : listOfFiles) {
@@ -228,7 +229,7 @@ public class TestInputStringGenerator {
 		long beforeUsedMem = 0;
 		long startTime = 0;
 		//Create Excel Workbook
-		writeXLSX writeToExcel = new writeXLSX("output//excelOut.xlsx");
+		writeXLSX writeToExcel = new writeXLSX("output//excelOut_datapoints.xlsx");
 
 		//Setup Excel column names
 		setExcelHeader(writeToExcel);
