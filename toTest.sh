@@ -1,7 +1,7 @@
 #!/bin/bash
 PWD=pwd
 cd submit
-j=1
+j=0
 for i in $(ls ../ProjectRequirements/datapoints/in*.txt)
 do
 STRING_NAME=output_basic$j.txt    
