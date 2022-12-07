@@ -28,9 +28,6 @@ public class Efficient {
 	private int[][] basic_OPT;
 	ArrayList<int[]> P = new ArrayList<>();
 
-
-
-
 	public Efficient(char[] dnaA,char[] dnaB,Map<String,Integer> alphaTableMap, int gap){
 		this.alphaTableMap = alphaTableMap;
 		optVal= divideCAlignment(dnaA,dnaB);
@@ -180,9 +177,7 @@ public class Efficient {
 
 		return B; 
 	}
-	/**
-	 * 
-	 */
+
 	private void backTrace() {
 		int ii = basic_OPT.length-1; 
 		int jj = basic_OPT[0].length-1;
@@ -264,13 +259,13 @@ public class Efficient {
 		System.out.println(String.valueOf(optVal));
 	}
 
-	/**
-	 * This method returns the first seq. of DNA
-	 * @return - DNA_A as a String
-	 */
-	public String getDnaA() {
-		return String.valueOf(dnaA);
-	}
+//	/**
+//	 * This method returns the first seq. of DNA
+//	 * @return - DNA_A as a String
+//	 */
+//	public String getDnaA() {
+//		return String.valueOf(dnaA);
+//	}
 
 	/**
 	 * This method returns the sequence alignment for DNA_A
@@ -280,13 +275,13 @@ public class Efficient {
 		return this.dnaAOut;
 	}
 
-	/**
-	 * This method returns the second seq. of DNA 
-	 * @return - DNA_B as a String
-	 */
-	public String getDnaB() {
-		return String.valueOf(dnaB);
-	}
+//	/**
+//	 * This method returns the second seq. of DNA
+//	 * @return - DNA_B as a String
+//	 */
+//	public String getDnaB() {
+//		return String.valueOf(dnaB);
+//	}
 
 	/**
 	 * This method returns the sequence alignment for DNA_B
@@ -410,10 +405,10 @@ public class Efficient {
 	}
 
 	//====================
-	private static long getMemoryInKB() {
-		long total = Runtime.getRuntime().totalMemory();
-		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
-	}
+//	private static long getMemoryInKB() {
+//		long total = Runtime.getRuntime().totalMemory();
+//		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
+//	}
 	private static long getTimeInMilliseconds() {
 		return (long) (System.nanoTime()/1E+6);
 	}
@@ -423,10 +418,10 @@ public class Efficient {
 		double total = Runtime.getRuntime().totalMemory();
 		return (total - Runtime.getRuntime().freeMemory()) / 1E+3;
 	}
-	public static double getTimeInMillisecondsDouble()
-	{
-		return (double) (System.nanoTime()/1E+6);
-	}
+//	public static double getTimeInMillisecondsDouble()
+//	{
+//		return (double) (System.nanoTime()/1E+6);
+//	}
 
 
 
@@ -454,12 +449,8 @@ public class Efficient {
 		endTime = getTimeInMilliseconds();
 		totalUsage = afterUsedMem - beforeUsedMem;
 		totalTime = endTime - startTime;
-		
-		if(totalUsage < 0)
-			System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN EFFICIENT\r\n");
-			toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
-			System.out.printf("(Eff %s) TOTAL USAGE: %f\r\n",args[0], totalUsage);
 
+		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
 	}
 
 	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)

@@ -19,7 +19,7 @@ public class Basic {
 	private int[][] pathArry;
 	private int optVal;
 
-	private int[][] spaceEfficientOpt;
+//	private int[][] spaceEfficientOpt;
 
 
 
@@ -146,13 +146,13 @@ public class Basic {
 		optVal =OPT[OPT.length-1][OPT[0].length-1];
 	}
 
-	/**
-	 * This method returns the first seq. of DNA
-	 * @return - DNA_A as a String
-	 */
-	public String getDnaA() {
-		return String.valueOf(dnaA);
-	}
+//	/**
+//	 * This method returns the first seq. of DNA
+//	 * @return - DNA_A as a String
+//	 */
+//	public String getDnaA() {
+//		return String.valueOf(dnaA);
+//	}
 
 	/**
 	 * This method returns the sequence alignment for DNA_A
@@ -162,13 +162,13 @@ public class Basic {
 		return this.dnaAOut;
 	}
 
-	/**
-	 * This method returns the second seq. of DNA 
-	 * @return - DNA_B as a String
-	 */
-	public String getDnaB() {
-		return String.valueOf(dnaB);
-	}
+//	/**
+//	 * This method returns the second seq. of DNA
+//	 * @return - DNA_B as a String
+//	 */
+//	public String getDnaB() {
+//		return String.valueOf(dnaB);
+//	}
 
 	/**
 	 * This method returns the sequence alignment for DNA_B
@@ -200,24 +200,24 @@ public class Basic {
 
 	}
 
-	/**
-	 * This method is used for debugging.
-	 * Print out entire OPT array
-	 */
-	public void printArray() {
-
-		// Loop through all rows
-		for (int[] ints : OPT) {
-
-			// Loop through all elements of current row
-			for (int anInt : ints) {
-
-				System.out.print(anInt + "   ");
-			}
-			System.out.println();
-		}  
-
-	}
+//	/**
+//	 * This method is used for debugging.
+//	 * Print out entire OPT array
+//	 */
+//	public void printArray() {
+//
+//		// Loop through all rows
+//		for (int[] ints : OPT) {
+//
+//			// Loop through all elements of current row
+//			for (int anInt : ints) {
+//
+//				System.out.print(anInt + "   ");
+//			}
+//			System.out.println();
+//		}
+//
+//	}
 
 	public void printdnaAOut() {
 		System.out.println(dnaAOut);
@@ -341,11 +341,6 @@ public class Basic {
 
 		return s.substring(0,index+1)+s+s.substring(index+1);
 	}
-	public static long getMemoryInKB()
-	{
-		long total = Runtime.getRuntime().totalMemory();
-		return (long) ((total - Runtime.getRuntime().freeMemory()) / 1E+3);
-	}
 	public static long getTimeInMilliseconds()
 	{
 		return (long) (System.nanoTime()/1E+6);
@@ -356,11 +351,6 @@ public class Basic {
 		double total = Runtime.getRuntime().totalMemory();
 		return (total - Runtime.getRuntime().freeMemory()) / 1E+3;
 	}
-	public static double getTimeInMillisecondsDouble()
-	{
-		return (double) (System.nanoTime()/1E+6);
-	}
-
 	//============================main basic call =======================================
 
 	public static void main (String[] args)
@@ -389,11 +379,7 @@ public class Basic {
 		totalUsage = afterUsedMem-beforeUsedMem;
 		totalTime = endTime - startTime;
 		
-		if(totalUsage < 0)
-			System.out.println("[ERROR]: NEGATIVE VALUE FOUND IN BASIC\r\n");
 		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
-		System.out.printf("(Basic %s) TOTAL USAGE: %f\r\n",args[0], totalUsage);
-
 	}
 
 	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
