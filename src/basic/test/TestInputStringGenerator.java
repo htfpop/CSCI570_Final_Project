@@ -32,14 +32,14 @@ public class TestInputStringGenerator {
 		//String filePath = "ProjectRequirements\\\\datapoints\\\\";
 		//String filePath = "ProjectRequirements\\\\SampleTestCases\\\\";
 		//String filePath = "ProjectRequirements//SampleTestCases//";  //path fix for MacOS
-		String filePath = "ProjectRequirements//datapoints//";
-		//String filePath = "ProjectRequirements//SampleTestCases//";
+		//String filePath = "ProjectRequirements//datapoints//";
+		String filePath = "ProjectRequirements//SampleTestCases//";
 
 
 
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-//				"input1.txt",
+				"input1.txt",
 //				"in0.txt",
 //				"in1.txt",
 //				"in2.txt",
@@ -65,7 +65,7 @@ public class TestInputStringGenerator {
 				//generation of new points 12/6/22
 //				"in22.txt"
 //				"in23.txt"
-				"in24.txt"
+//				"in24.txt"
 		};
 		
 		// if new file then need to add testing measurements to dnaA and dnaB
@@ -240,8 +240,8 @@ public class TestInputStringGenerator {
 		double beforeUsedMem = 0;
 		double startTime = 0;
 		//Create Excel Workbook
-		//writeXLSX writeToExcel = new writeXLSX("output/excelOut_sampletescases.xlsx");
-		writeXLSX writeToExcel = new writeXLSX("output/excelOut_datapoints24.xlsx");
+		writeXLSX writeToExcel = new writeXLSX("output/excelOut_sampletescases1.xlsx");
+		//writeXLSX writeToExcel = new writeXLSX("output/excelOut_datapoints24.xlsx");
 
 		//Setup Excel column names
 		setExcelHeader(writeToExcel);
@@ -379,11 +379,11 @@ public class TestInputStringGenerator {
 	public static double getMemoryInKBDouble()
 	{
 		double total = Runtime.getRuntime().totalMemory();
-		return (total - Runtime.getRuntime().freeMemory()) / 1E+3;
+		return (total - Runtime.getRuntime().freeMemory()) / 10E+3;
 	}
 	public static double getTimeInMillisecondsDouble()
 	{
-		return (double) (System.nanoTime()/1E+6);
+		return (double) (System.nanoTime()/10E+6);
 	}
 
 //=========================================================================================================================================================

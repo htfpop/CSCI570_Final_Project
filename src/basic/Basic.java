@@ -343,13 +343,13 @@ public class Basic {
 	}
 	public static long getTimeInMilliseconds()
 	{
-		return (long) (System.nanoTime()/1E+6);
+		return (long) (System.nanoTime()/10E+6);
 	}
 
 	public static double getMemoryInKBDouble()
 	{
 		double total = Runtime.getRuntime().totalMemory();
-		return (total - Runtime.getRuntime().freeMemory()) / 1E+3;
+		return (total - Runtime.getRuntime().freeMemory()) / 10E+3;
 	}
 	//============================main basic call =======================================
 
