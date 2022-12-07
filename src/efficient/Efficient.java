@@ -479,10 +479,10 @@ public class Efficient {
 			pw.write(DNA_B);
 			pw.println();
 
-			pw.write(String.valueOf(totalMemory));
+			pw.write(String.valueOf(totalTime));
 			pw.println();
 
-			pw.write(String.valueOf(totalTime));
+			pw.write(String.valueOf(totalMemory));
 			pw.println();
 
 			pw.close();
