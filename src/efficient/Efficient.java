@@ -459,6 +459,10 @@ public class Efficient {
 		endTime = getTimeInMilliseconds();
 		totalUsage = afterUsedMem - beforeUsedMem;
 		totalTime = endTime - startTime;
+		//System.out.printf("M+N        eff: | %d\r\n",dnaStrings[0].length()+dnaStrings[1].length());
+		//System.out.println("totalUsage eff: |"+args[0]+" |"+totalUsage);
+		//System.out.println("totalTime  eff: |"+args[0]+" |"+totalTime);
+		System.out.printf("%s, %d, %.5f, %.5f \r\n","eff",dnaStrings[0].length()+dnaStrings[1].length(),  totalUsage,  totalTime);
 
 		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, outputFile);
 	}
