@@ -363,6 +363,17 @@ public class Basic {
 		double totalTime = 0;
 		Basic algo = null;
 		String[] dnaStrings = null;
+		String outputFile = null; 
+
+		if(args[1].length() == 0){
+			outputFile = "output.txt";
+		}else {
+
+			outputFile = args[1];
+			
+		}
+		
+		
 		try {
 			dnaStrings= parseStrings(args);
 		} catch (FileNotFoundException e) {
@@ -378,8 +389,7 @@ public class Basic {
 		endTime = getTimeInMilliseconds();
 		totalUsage = afterUsedMem-beforeUsedMem;
 		totalTime = endTime - startTime;
-		
-		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, args[1]);
+		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, outputFile);
 	}
 
 	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
