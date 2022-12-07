@@ -389,7 +389,7 @@ public class Basic {
 		endTime = getTimeInMilliseconds();
 		totalUsage = afterUsedMem-beforeUsedMem;
 		totalTime = endTime - startTime;
-		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, outputFile);
+		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalTime, totalUsage, outputFile);
 	}
 
 	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
