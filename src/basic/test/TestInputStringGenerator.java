@@ -39,7 +39,7 @@ public class TestInputStringGenerator {
 
 		// if new file then need to add testing measurements to dnaA and dnaB
 		String[] listOfFiles = new String[]{
-				"input5.txt",
+				"input1.txt",
 //				"in0.txt",
 //				"in1.txt",
 //				"in2.txt",
@@ -240,7 +240,7 @@ public class TestInputStringGenerator {
 		double beforeUsedMem = 0;
 		double startTime = 0;
 		//Create Excel Workbook
-		writeXLSX writeToExcel = new writeXLSX("output/excelOut_sampletescases5.xlsx");
+		writeXLSX writeToExcel = new writeXLSX("output/excelOut_sampletescases1.xlsx");
 		//writeXLSX writeToExcel = new writeXLSX("output/excelOut_datapoints24.xlsx");
 
 		//Setup Excel column names
