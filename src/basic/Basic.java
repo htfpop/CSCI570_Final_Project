@@ -389,7 +389,7 @@ public class Basic {
 		//System.out.printf("M+N         basic: | %d\r\n",dnaStrings[0].length()+dnaStrings[1].length());
 		//System.out.println("totalUsage basic: |"+args[0]+" |"+totalUsage);
 		//System.out.println("totalTime  basic: |"+args[0]+" |"+totalTime);
-		System.out.printf("%s, %d, %.5f, %.5f \r\n","basic",dnaStrings[0].length()+dnaStrings[1].length(),  totalUsage,  totalTime);
+		//System.out.printf("%s, %d, %.5f, %.5f \r\n","basic",dnaStrings[0].length()+dnaStrings[1].length(),  totalUsage,  totalTime);
 
 		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, outputFile);
 	}
@@ -422,7 +422,7 @@ public class Basic {
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.printf("[ERROR]: Could not create new file with path %s. Exiting now\r\n",outFile);
+			System.out.printf("[ERROR]: Could not create new file with path \"%s\". Exiting now\r\n",outFile);
 			System.exit(-1);
 		} catch (IOException e)
 		{
