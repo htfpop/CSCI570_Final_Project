@@ -341,15 +341,14 @@ public class Basic {
 
 		return s.substring(0,index+1)+s+s.substring(index+1);
 	}
-	public static long getTimeInMilliseconds()
-	{
-		return (long) (System.nanoTime()/1E+6);
-	}
-
 	public static double getMemoryInKBDouble()
 	{
 		double total = Runtime.getRuntime().totalMemory();
 		return (total - Runtime.getRuntime().freeMemory()) / 1E+3;
+	}
+	public static double getTimeInMillisecondsDouble()
+	{
+		return (double) (System.nanoTime()/1E+6);
 	}
 	//============================main basic call =======================================
 
@@ -381,10 +380,10 @@ public class Basic {
 
 		System.gc();
 		beforeUsedMem=getMemoryInKBDouble();
-		startTime = getTimeInMilliseconds();
+		startTime = getTimeInMillisecondsDouble();
 		algo = new Basic(dnaStrings[0].toCharArray(),dnaStrings[1].toCharArray(),alphaTableMap,DELTA);
+		endTime = getTimeInMillisecondsDouble();
 		afterUsedMem = getMemoryInKBDouble();
-		endTime = getTimeInMilliseconds();
 		totalUsage = afterUsedMem-beforeUsedMem;
 		totalTime = endTime - startTime;
 		//System.out.printf("M+N         basic: | %d\r\n",dnaStrings[0].length()+dnaStrings[1].length());
