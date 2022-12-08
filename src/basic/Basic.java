@@ -19,7 +19,7 @@ public class Basic {
 	private int[][] pathArry;
 	private int optVal;
 
-//	private int[][] spaceEfficientOpt;
+	//	private int[][] spaceEfficientOpt;
 
 
 
@@ -146,13 +146,13 @@ public class Basic {
 		optVal =OPT[OPT.length-1][OPT[0].length-1];
 	}
 
-//	/**
-//	 * This method returns the first seq. of DNA
-//	 * @return - DNA_A as a String
-//	 */
-//	public String getDnaA() {
-//		return String.valueOf(dnaA);
-//	}
+	//	/**
+	//	 * This method returns the first seq. of DNA
+	//	 * @return - DNA_A as a String
+	//	 */
+	//	public String getDnaA() {
+	//		return String.valueOf(dnaA);
+	//	}
 
 	/**
 	 * This method returns the sequence alignment for DNA_A
@@ -162,13 +162,13 @@ public class Basic {
 		return this.dnaAOut;
 	}
 
-//	/**
-//	 * This method returns the second seq. of DNA
-//	 * @return - DNA_B as a String
-//	 */
-//	public String getDnaB() {
-//		return String.valueOf(dnaB);
-//	}
+	//	/**
+	//	 * This method returns the second seq. of DNA
+	//	 * @return - DNA_B as a String
+	//	 */
+	//	public String getDnaB() {
+	//		return String.valueOf(dnaB);
+	//	}
 
 	/**
 	 * This method returns the sequence alignment for DNA_B
@@ -200,24 +200,24 @@ public class Basic {
 
 	}
 
-//	/**
-//	 * This method is used for debugging.
-//	 * Print out entire OPT array
-//	 */
-//	public void printArray() {
-//
-//		// Loop through all rows
-//		for (int[] ints : OPT) {
-//
-//			// Loop through all elements of current row
-//			for (int anInt : ints) {
-//
-//				System.out.print(anInt + "   ");
-//			}
-//			System.out.println();
-//		}
-//
-//	}
+	//	/**
+	//	 * This method is used for debugging.
+	//	 * Print out entire OPT array
+	//	 */
+	//	public void printArray() {
+	//
+	//		// Loop through all rows
+	//		for (int[] ints : OPT) {
+	//
+	//			// Loop through all elements of current row
+	//			for (int anInt : ints) {
+	//
+	//				System.out.print(anInt + "   ");
+	//			}
+	//			System.out.println();
+	//		}
+	//
+	//	}
 
 	public void printdnaAOut() {
 		System.out.println(dnaAOut);
@@ -369,10 +369,8 @@ public class Basic {
 		}else {
 
 			outputFile = args[1];
-			
+
 		}
-		
-		
 		try {
 			dnaStrings= parseStrings(args);
 		} catch (FileNotFoundException e) {
@@ -388,7 +386,12 @@ public class Basic {
 		afterUsedMem = getMemoryInKBDouble();
 		totalUsage = afterUsedMem-beforeUsedMem;
 		totalTime = endTime - startTime;
-		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalTime, totalUsage, outputFile);
+		//System.out.printf("M+N         basic: | %d\r\n",dnaStrings[0].length()+dnaStrings[1].length());
+		//System.out.println("totalUsage basic: |"+args[0]+" |"+totalUsage);
+		//System.out.println("totalTime  basic: |"+args[0]+" |"+totalTime);
+		//System.out.printf("%s, %d, %.5f, %.5f \r\n","basic",dnaStrings[0].length()+dnaStrings[1].length(),  totalUsage,  totalTime);
+
+		toFile(algo.getOptVal(), algo.getDnaAOut(), algo.getDnaBOut(), totalUsage, totalTime, outputFile);
 	}
 
 	public static void toFile(int optVal, String DNA_A, String DNA_B, double totalMemory, double totalTime, String outFile)
@@ -408,9 +411,10 @@ public class Basic {
 			pw.println();
 
 			pw.write(String.valueOf(totalTime));
-			pw.println();
 
+			pw.println();
 			pw.write(String.valueOf(totalMemory));
+
 			pw.println();
 
 			pw.close();
@@ -418,7 +422,7 @@ public class Basic {
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.printf("[ERROR]: Could not create new file with path %s. Exiting now\r\n",outFile);
+			System.out.printf("[ERROR]: Could not create new file with path \"%s\". Exiting now\r\n",outFile);
 			System.exit(-1);
 		} catch (IOException e)
 		{
